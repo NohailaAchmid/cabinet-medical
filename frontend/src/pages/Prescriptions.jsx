@@ -151,15 +151,11 @@ export default function Prescriptions() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Prescriptions Numériques
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+          
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive' }}>
             Gestion des Ordonnances
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Création d'ordonnances sécurisées avec posologie, durée, impression et export PDF officiel.
-          </p>
+          
         </div>
 
         <button type="button" className="btn btn-primary" onClick={handleOpenCreate}>
@@ -321,14 +317,14 @@ export default function Prescriptions() {
 
           <form id="prescriptionForm" onSubmit={handleSave}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
-              <Field label="Sélectionner le patient" required>
+              <Field label="Sélectionner un patient" required>
                 <select
                   className="form-control form-select"
                   required
                   value={form.patient_id}
                   onChange={(e) => setForm({ ...form, patient_id: e.target.value })}
                 >
-                  <option value="">-- Choisir un patient --</option>
+                  <option value=""> Choisir un enfant </option>
                   {patients.map((pat) => (
                     <option key={pat.id} value={pat.id}>
                       {pat.last_name?.toUpperCase()} {pat.first_name} ({pat.birth_date || 'Né(e) ?'})
@@ -375,30 +371,15 @@ export default function Prescriptions() {
                       padding: 16,
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                      <span className="badge badge-info" style={{ fontWeight: 700 }}>
-                        Médicament #{idx + 1}
-                      </span>
-                      {form.items.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn btn-ghost btn-sm"
-                          style={{ color: 'var(--danger)', padding: 4 }}
-                          onClick={() => removeItem(idx)}
-                        >
-                          <Trash2 size={16} /> Supprimer
-                        </button>
-                      )}
-                    </div>
-
+                   
                     <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.2fr 1fr', gap: 12 }}>
-                      <Field label="Base de médicaments (Sélection rapide)">
+                      <Field label="Base de médicaments ">
                         <select
                           className="form-control form-select"
                           value={item.medication_id}
                           onChange={(e) => handleItemChange(idx, 'medication_id', e.target.value)}
                         >
-                          <option value="">-- Choisir ou saisir ci-contre --</option>
+                          <option value=""> Choisir ou saisir ci-contre </option>
                           {medications.map((m) => (
                             <option key={m.id} value={m.id}>
                               {m.name} ({m.dosage || m.form})

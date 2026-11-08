@@ -140,15 +140,11 @@ export default function Settings() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Paramètres & Identité
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+         
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive'  }}>
             Configuration du Cabinet Médical
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Personnalisez vos documents officiels, coordonnées, logo et effectuez vos sauvegardes de données.
-          </p>
+         
         </div>
 
         <button type="button" className="btn btn-outline" onClick={handleBackup}>
@@ -184,7 +180,7 @@ export default function Settings() {
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Cabinet Médical Santé & Soins"
+                 
                   className="form-control"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -195,7 +191,7 @@ export default function Settings() {
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Dr. Médecin Traitant"
+                
                   className="form-control"
                   value={form.doctor_name}
                   onChange={(e) => setForm({ ...form, doctor_name: e.target.value })}
@@ -214,15 +210,15 @@ export default function Settings() {
                 />
               </Field>
 
-              <Field label="Téléphone professionnel" required>
-                <input
-                  type="text"
-                  required
-                  className="form-control"
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                />
-              </Field>
+             <Field label="Téléphone professionnel" required>
+  <input
+    type="text"
+    required
+    className="form-control"
+    value={form.phone}
+    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+  />
+</Field>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 16 }}>
@@ -235,15 +231,7 @@ export default function Settings() {
                 />
               </Field>
 
-              <Field label="Quartier / Repère de localisation">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Ex: Maârif, Centre-ville"
-                  value={form.location_text}
-                  onChange={(e) => setForm({ ...form, location_text: e.target.value })}
-                />
-              </Field>
+              
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16 }}>
@@ -267,14 +255,7 @@ export default function Settings() {
                 />
               </Field>
 
-              <Field label="Code postal">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={form.postal_code}
-                  onChange={(e) => setForm({ ...form, postal_code: e.target.value })}
-                />
-              </Field>
+              
             </div>
 
             <Field label="Texte de présentation / À propos">
@@ -290,7 +271,7 @@ export default function Settings() {
               <textarea
                 rows={3}
                 className="form-control"
-                placeholder="Lundi – Vendredi : 09h00–13h00 / 15h00–19h00..."
+                placeholder="Lundi – Vendredi : 09h00–13h00 / 15h00–18h00..."
                 value={form.opening_hours}
                 onChange={(e) => setForm({ ...form, opening_hours: e.target.value })}
               />

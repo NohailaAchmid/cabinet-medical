@@ -1,354 +1,757 @@
-import { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../api/client'
+
 import {
+  Heart,
+  CalendarDays,
+  GraduationCap,
   Stethoscope,
-  Calendar,
-  Clock,
+  Hospital,
+  Star,
   MapPin,
   Phone,
   Mail,
-  ShieldCheck,
-  Heart,
-  FileText,
-  Activity,
-  ChevronRight,
-  Sparkles,
-  CheckCircle2,
-} from '../components/Icons'
+  UserRound,
+  Baby,
+  ArrowRight,
+  ChevronDown,
+  Send,
+  Clock,
+  Home as HomeIcon
+} from 'lucide-react'
+
+import {
+  FaInstagram,
+  FaTiktok,
+  FaWhatsapp
+} from 'react-icons/fa6'
+
+import './Home.css'
+
+/*
+  IMAGES (dossier public/images)
+  - dr-massilia.jpg  -> photo de la docteure avec le bébé (hero)
+  - baby.jpg         -> bébé avec l'ourson (section rendez-vous)
+  - logo-dr-massilia.png -> logo (icône stéthoscope-cœur)
+*/
+const doctorImage = '/images/dr-massilia.jpg'
+const babyImage = '/images/baby.jpg'
+const logoImage = '/images/logo-dr-massilia.png'
+
+/* HORAIRES : modifie ici les jours et les heures */
+const HOURS = [
+  { day: 'Lundi', time: '09:00 – 13:00  |  14:00 – 17:00' },
+  { day: 'Mardi', time: '09:00 – 13:00  |  14:00 – 17:00' },
+  { day: 'Mercredi', time: '09:00 – 13:00  |  14:00 – 17:00' },
+  { day: 'Jeudi', time: '09:00 – 13:00  |  14:00 – 17:00' },
+  { day: 'Vendredi', time: '09:00 – 13:00  |  14:00 – 17:00' },
+  { day: 'Samedi', time: '09:00 – 13:00' },
+  { day: 'Dimanche', time: 'Fermé', closed: true }
+]
+
+/* ===== FORMULAIRE DE RENDEZ-VOUS (accueil) ===== */
+
+/* Motifs proposés : remplace par ceux de ta page /rendez-vous */
+const MOTIFS = [
+  'Consultation pédiatrique',
+  'Suivi de croissance',
+  'Vaccination',
+  'Nouveau-né / Néonatologie',
+  'Autre motif'
+]
+
+/* Créneaux proposés : remplace par ceux de ta page /rendez-vous */
+const SLOTS = [
+  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+  '15:00', '15:30'
+]
+
+const EMPTY_FORM = {
+  parent: '',
+  phone: '',
+  email: '',
+  child: '',
+  birth: '',
+  motif: '',
+  date: '',
+  slot: ''
+}
+
+const todayISO = () =>
+  new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10)
+
+/*
+  ENVOI DE LA DEMANDE
+  À brancher sur le même enregistrement que la page /rendez-vous.
+  Données reçues : { fullName, phone, email, reason, date, time, notes }
+*/
+async function sendAppointment(data) {
+  // TODO : remplacer par l'appel réel (fetch / service de la page /rendez-vous)
+  console.log('Demande de rendez-vous :', data)
+  throw new Error('NOT_CONFIGURED')
+}
+
+const MAPS_URL =
+  'https://www.google.com/maps/search/?api=1&query=Rue+des+Forces+Arm%C3%A9es+Royales+Rue+12+Nador+Maroc'
 
 export default function Home() {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  // Lundi = 0 ... Dimanche = 6
+  const todayIndex = (new Date().getDay() + 6) % 7
 
-  useEffect(() => {
-    api.get('/public/cabinet')
-      .then((res) => setData(res.data))
-      .catch(() => setData({ cabinet: null, availabilities: [] }))
-      .finally(() => setLoading(false))
-  }, [])
+  const [form, setForm] = useState(EMPTY_FORM)
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [feedback, setFeedback] = useState('')
 
-  const cabinet = data?.cabinet
-  const doctorName = cabinet?.doctor_name || 'Le Médecin Praticien'
-  const specialty = cabinet?.specialty || 'Médecine Générale'
-  const clinicName = cabinet?.name || 'Cabinet Médical Santé & Soins'
+  const updateField = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    if (status !== 'sending') setStatus('idle')
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (
+      !form.parent.trim() ||
+      !form.phone.trim() ||
+      !form.child.trim() ||
+      !form.motif ||
+      !form.date ||
+      !form.slot
+    ) {
+      setStatus('error')
+      setFeedback('Merci de remplir tous les champs marqués d\'une *.')
+      return
+    }
+
+    if (form.phone.replace(/\D/g, '').length < 8) {
+      setStatus('error')
+      setFeedback('Merci de saisir un numéro de téléphone valide.')
+      return
+    }
+
+    setStatus('sending')
+    setFeedback('')
+
+    const notes =
+      `Enfant : ${form.child.trim()}` +
+      (form.birth ? ` — né(e) le ${form.birth}` : '')
+
+    try {
+      await sendAppointment({
+        fullName: form.parent.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim(),
+        reason: form.motif,
+        date: form.date,
+        time: form.slot,
+        notes
+      })
+
+      setStatus('success')
+      setFeedback('Votre demande a bien été envoyée. Le cabinet vous confirme l\'horaire rapidement.')
+      setForm(EMPTY_FORM)
+    } catch (err) {
+      setStatus('error')
+      setFeedback(
+        err.message === 'NOT_CONFIGURED'
+          ? 'L\'envoi des demandes n\'est pas encore configuré.'
+          : 'Une erreur est survenue. Merci de réessayer ou de contacter le cabinet.'
+      )
+    }
+  }
 
   return (
-    <div className="public-shell">
-      {/* Top Navbar */}
-      <nav className="public-nav">
-        <div className="nav-brand">
-          <div className="nav-brand-logo">
-            <Stethoscope size={24} />
+    <main className="massilia-home">
+
+      {/* ================= HEADER ================= */}
+      <header className="massilia-header">
+
+        <Link to="/#accueil" className="massilia-logo">
+          <img
+            src={logoImage}
+            alt="Logo Dr Massilia Bouhmidi"
+            className="logo-icon"
+          />
+          <div className="logo-text">
+            <strong>Dr Massilia Bouhmidi</strong>
+            <span>Pédiatre</span>
           </div>
-          <div>
-            <div style={{ lineHeight: 1.15 }}>{clinicName}</div>
-            <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-              {specialty}
-            </div>
-          </div>
-        </div>
+        </Link>
 
-        <div className="nav-links">
-          <a href="#services">Soins & Services</a>
-          <a href="#apropos">Le Cabinet</a>
-          <a href="#horaires">Horaires & Accès</a>
-          <Link to="/rendez-vous" className="btn btn-primary btn-sm">
-            <Calendar size={15} /> Prendre Rendez-vous
-          </Link>
-          <Link to="/connexion" className="btn btn-outline btn-sm">
-            Espace Professionnel
-          </Link>
-        </div>
-      </nav>
+        <nav className="massilia-nav">
+          <a className="nav-active" href="#accueil">
+            <HomeIcon size={19} />
+            Accueil
+          </a>
 
-      {/* Hero Section */}
-      <section className="public-hero">
-        <div>
-          <div className="hero-tag">
-            <span className="pulse-container">
-              <span className="pulse-dot" />
-              <span>Consultations sur RDV • Dossiers Numérisés</span>
-            </span>
-          </div>
+          <a href="#docteur">
+            Le Docteur
+            <ChevronDown size={16} />
+          </a>
 
-          <h1 className="hero-title">
-            Une médecine attentive, une gestion <span className="text-gradient">fluide & moderne</span>.
-          </h1>
+          <a href="#rendez-vous">
+            <CalendarDays size={19} />
+            Prendre Rendez-vous
+          </a>
 
-          <p className="hero-description">
-            {cabinet?.about ||
-              "Bienvenue au sein de notre cabinet médical. Bénéficiez d'une prise en charge rigoureuse, d'un suivi personnalisé et de la création immédiate de vos ordonnances, attestations et examens sous format numérique."}
-          </p>
+          <a href="#horaires">
+            <Clock size={19} />
+            Horaires
+          </a>
 
-          <div className="hero-actions">
-            <Link to="/rendez-vous" className="btn btn-primary btn-lg">
-              <Calendar size={18} /> Prendre Rendez-vous en Ligne
-            </Link>
-            <a href="#horaires" className="btn btn-secondary btn-lg">
-              <MapPin size={18} /> Localisation & Horaires
-            </a>
-          </div>
+          <a href="#contact">
+            <Mail size={19} />
+            Contact
+          </a>
+        </nav>
 
-          <div
-            style={{
-              display: 'flex',
-              gap: 32,
-              marginTop: 44,
-              paddingTop: 28,
-              borderTop: '1px solid var(--border)',
-            }}
-          >
-            <div>
-              <div style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--primary)' }}>100%</div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>Documents Numériques</div>
-            </div>
-            <div style={{ borderRight: '1px solid var(--border)' }} />
-            <div>
-              <div style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--success)' }}>24h/7j</div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>Demandes en ligne</div>
-            </div>
-            <div style={{ borderRight: '1px solid var(--border)' }} />
-            <div>
-              <div style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--indigo)' }}>Sécurisé</div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>Secret Médical Garanti</div>
-            </div>
-          </div>
-        </div>
+        <Link to="/login" className="massilia-portal">
+  <UserRound size={18} />
+  Espace Médecin
+</Link>
+      </header>
 
-        {/* Hero Doctor Card */}
-        <div className="hero-card-badge">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 22 }}>
-            <div
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: '50%',
-                background: 'var(--primary-gradient-subtle)',
-                color: 'var(--primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid rgba(37, 99, 235, 0.2)',
-              }}
-            >
-              <Stethoscope size={32} />
-            </div>
-            <div>
-              <span className="badge badge-success" style={{ marginBottom: 6 }}>
-                Cabinet en activité
-              </span>
-              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a' }}>
-                {doctorName}
-              </h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 600 }}>{specialty}</p>
-            </div>
-          </div>
+      {/* ================= HERO ================= */}
+      <section className="massilia-hero" id="accueil">
 
-          <div
-            style={{
-              background: '#f8fafc',
-              borderRadius: 14,
-              padding: 18,
-              border: '1px solid #e2e8f0',
-              marginBottom: 20,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-              <Clock size={16} color="var(--primary)" />
-              <strong style={{ fontSize: '0.88rem', color: '#0f172a' }}>Horaires de consultation :</strong>
-            </div>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
-              {cabinet?.opening_hours ||
-                "Lundi – Vendredi : 09h00–13h00 / 15h00–19h00\nSamedi : 09h00–13h00"}
-            </p>
-          </div>
+        <div className="hero-decoration hero-circle-one" />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: '0.9rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)' }}>
-              <MapPin size={17} color="var(--primary)" />
-              <span>{cabinet?.address || '12 Boulevard Zerktouni'}, {cabinet?.city || 'Casablanca'}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)' }}>
-              <Phone size={17} color="var(--primary)" />
-              <span>{cabinet?.phone || '0522 00 11 22'}</span>
-            </div>
-          </div>
+        <div className="hero-content">
 
-          <Link
-            to="/rendez-vous"
-            className="btn btn-primary"
-            style={{ width: '100%', marginTop: 24 }}
-          >
-            Réserver une consultation <ChevronRight size={16} />
-          </Link>
-        </div>
-      </section>
+          <div className="hero-title">
 
-      {/* Services Grid */}
-      <section id="services" style={{ padding: '70px 6vw', background: '#ffffff', borderTop: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span className="badge badge-info" style={{ marginBottom: 12 }}>
-              Offre de Soins
-            </span>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-              Une prise en charge médicale globale
-            </h2>
-            <p style={{ color: 'var(--text-muted)', marginTop: 8, maxWidth: 620, margin: '8px auto 0', fontSize: '1.05rem' }}>
-              Des consultations approfondies, des documents officiels instantanés et un accompagnement de santé continu.
-            </p>
-          </div>
+            <div className="hero-title-top">
+              <span>Cabinet de</span>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 26 }}>
-            {[
-              {
-                icon: Heart,
-                color: 'kpi-emerald',
-                title: 'Consultations Générales',
-                desc: 'Diagnostic clinique, suivi régulier, traitement des pathologies aiguës et suivi des maladies chroniques (HTA, diabète).',
-              },
-              {
-                icon: FileText,
-                color: 'kpi-blue',
-                title: 'Ordonnances Numérisées',
-                desc: 'Prescriptions claires et sécurisées avec posologie précise, durée, imprimables immédiatement et téléchargeables en PDF.',
-              },
-              {
-                icon: ShieldCheck,
-                color: 'kpi-purple',
-                title: 'Certificats & Attestations',
-                desc: 'Arrêts de travail avec calcul du repos, certificats d’aptitude sportive et attestations de présence ou de consultation.',
-              },
-              {
-                icon: Activity,
-                color: 'kpi-amber',
-                title: 'Examens Radiologiques',
-                desc: 'Demandes détaillées d’imagerie médicale (Radiographie, Échographie, Scanner TDM, IRM) avec indication clinique officielle.',
-              },
-            ].map((srv, idx) => {
-              const IconComp = srv.icon
-              return (
-                <div key={idx} className="card" style={{ padding: 30, display: 'flex', flexDirection: 'column' }}>
-                  <div className={`kpi-icon-box ${srv.color}`} style={{ marginBottom: 22 }}>
-                    <IconComp size={28} />
-                  </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 10, color: '#0f172a' }}>
-                    {srv.title}
-                  </h3>
-                  <p style={{ fontSize: '0.92rem', color: 'var(--text-muted)', lineHeight: 1.65, flex: 1 }}>
-                    {srv.desc}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Doctor & Clinic Details */}
-      <section id="horaires" style={{ padding: '70px 6vw', maxWidth: 1280, margin: '0 auto', width: '100%' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 30 }}>
-          <div className="card">
-            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <MapPin size={22} color="var(--primary)" /> Coordonnées & Accès
-            </h3>
-            <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div>
-                <strong style={{ color: '#0f172a' }}>Adresse du cabinet :</strong>
-                <p style={{ color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.6 }}>
-                  {cabinet?.address || '12 Boulevard Zerktouni'}
-                  <br />
-                  {cabinet?.postal_code} {cabinet?.city || 'Casablanca'}
-                  <br />
-                  <span style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600 }}>
-                    {cabinet?.location_text || 'Accès facile, parking et transports à proximité'}
-                  </span>
-                </p>
-              </div>
-              <div>
-                <strong style={{ color: '#0f172a' }}>Contact direct :</strong>
-                <p style={{ color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.6 }}>
-                  Téléphone : <strong>{cabinet?.phone || '0522 00 11 22'}</strong>
-                  <br />
-                  E-mail : {cabinet?.email || 'contact@cabinet.local'}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Clock size={22} color="var(--primary)" /> Créneaux d'ouverture
-            </h3>
-            <div style={{ marginTop: 20 }}>
-              <div
-                style={{
-                  background: 'var(--bg-main)',
-                  padding: 18,
-                  borderRadius: 14,
-                  border: '1px solid var(--border)',
-                  lineHeight: 1.8,
-                  fontSize: '0.9rem',
-                }}
+              <svg
+                className="title-swoosh"
+                viewBox="0 0 160 50"
+                fill="none"
+                aria-hidden="true"
               >
-                {cabinet?.opening_hours ? (
-                  <div style={{ whiteSpace: 'pre-line' }}>{cabinet.opening_hours}</div>
-                ) : (
-                  <>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>Lundi – Vendredi :</span>
-                      <strong>09:00 - 13:00 / 15:00 - 19:00</strong>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                      <span>Samedi :</span>
-                      <strong>09:00 - 13:00</strong>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, color: 'var(--text-light)' }}>
-                      <span>Dimanche :</span>
-                      <span>Fermé</span>
-                    </div>
-                  </>
-                )}
-              </div>
-              <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CheckCircle2 size={16} color="var(--success)" />
-                Les consultations se font sur rendez-vous pour réduire votre temps d'attente.
+                <path
+                  d="M4 44 C 40 14, 95 8, 156 22"
+                  stroke="#ff806d"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              <Heart className="title-heart" size={60} strokeWidth={1.8} />
+            </div>
+
+            <h1>Pédiatrie &amp; Néonatologie</h1>
+
+            <h2>– Dr Massilia Bouhmidi –</h2>
+
+            <svg
+              className="name-swoosh"
+              viewBox="0 0 240 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 13 C 60 3, 150 3, 236 9"
+                stroke="#ff806d"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          
+
+         <a href="#rendez-vous"className="hero-button">
+            <CalendarDays size={22} />
+           Prendre rendez-vous
+           
+          </a>
+
+        </div>
+
+        {/* Petits cœurs décoratifs */}
+        <Heart className="deco-heart deco-heart-left" size={38} strokeWidth={1.6} />
+        <Heart className="deco-heart deco-heart-coral" size={40} strokeWidth={1.7} />
+
+        {/* Photo docteure + bébé */}
+        <div className="hero-photo">
+          <div className="hero-photo-blob">
+            <img
+              src={doctorImage}
+              alt="Dr Massilia Bouhmidi, pédiatre, avec un nouveau-né"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+
+          <Heart className="photo-heart photo-heart-one" size={46} strokeWidth={1.8} />
+          <Heart className="photo-heart photo-heart-two" size={32} strokeWidth={1.8} />
+        </div>
+
+        {/* Vague + ourson */}
+        <svg
+          className="hero-wave"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M0 62 C 220 18, 430 104, 700 58 C 960 14, 1200 96, 1440 44 L1440 120 L0 120 Z"
+            fill="#dcebff"
+            opacity=".7"
+          />
+          <path
+            d="M0 84 C 260 40, 470 112, 740 76 C 1000 40, 1220 108, 1440 70 L1440 120 L0 120 Z"
+            fill="#eaf3ff"
+          />
+        </svg>
+
+              </section>
+
+      {/* ================= PARCOURS ACADÉMIQUE ================= */}
+      <section className="massilia-education" id="docteur">
+
+        <div className="section-heading">
+          <GraduationCap size={56} strokeWidth={1.9} />
+          <h2>Parcours académique</h2>
+        </div>
+
+        <p className="section-subtitle">
+          Une formation médicale complète, de Oujda aux hôpitaux de Paris.
+        </p>
+
+        <div className="education-grid">
+
+          <article className="education-card">
+            <div className="education-icon blue-icon">
+              <Stethoscope size={40} strokeWidth={2.2} />
+            </div>
+
+            <h3>Doctorat en médecine</h3>
+
+            <p>
+              Faculté de Médecine
+              <br />
+              d'Oujda
+            </p>
+          </article>
+
+          <article className="education-card">
+            <div className="education-icon blue-icon">
+              <Hospital size={40} strokeWidth={2.2} />
+            </div>
+
+            <h3>Résidence</h3>
+
+            <p>
+              Ancienne résidente du CHU
+              <br />
+              d'Oujda et des hôpitaux de Paris
+              <br />
+              (AP-HP)
+            </p>
+          </article>
+
+          <article className="education-card">
+            <div className="education-icon coral-icon">
+              <Star size={40} strokeWidth={2.2} />
+            </div>
+
+            <h3>Spécialisation</h3>
+
+            <p>
+              Pédiatrie, avec une expertise
+              <br />
+              en néonatologie
+            </p>
+          </article>
+
+        </div>
+      </section>
+
+      {/* ================= RENDEZ-VOUS ================= */}
+      <section className="massilia-booking" id="rendez-vous">
+
+        <div className="booking-image">
+          <img
+            src={babyImage}
+            alt="Nouveau-né avec son ours en peluche"
+          />
+
+          <Heart className="booking-heart booking-heart-one" strokeWidth={1.8} />
+          <Heart className="booking-heart booking-heart-two" strokeWidth={1.8} />
+          <Heart className="booking-heart booking-heart-three" strokeWidth={1.8} />
+        </div>
+
+        <div className="booking-content">
+
+          <div className="booking-title">
+
+            <div className="booking-calendar-icon">
+              <CalendarDays size={46} strokeWidth={1.8} />
+            </div>
+
+            <div>
+              <h2>Prendre rendez-vous en ligne</h2>
+
+              <p>
+                Remplissez le formulaire : le cabinet vous confirme
+                l'horaire rapidement.
               </p>
             </div>
+
           </div>
+
+          <form className="booking-form" onSubmit={handleSubmit} noValidate>
+
+            <div className="booking-preview">
+
+              <label className="booking-field">
+                <UserRound className="fill-icon" />
+                <input
+                  type="text"
+                  name="parent"
+                  value={form.parent}
+                  onChange={updateField}
+                  placeholder="Nom du parent *"
+                  autoComplete="name"
+                />
+              </label>
+
+              <label className="booking-field">
+                <Phone className="fill-icon" />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={form.phone}
+                  onChange={updateField}
+                  placeholder="Téléphone *"
+                  autoComplete="tel"
+                />
+              </label>
+
+              <label className="booking-field">
+                <Mail />
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={updateField}
+                  placeholder="Adresse e-mail (facultatif)"
+                  autoComplete="email"
+                />
+              </label>
+
+              <label className="booking-field">
+                <Baby />
+                <input
+                  type="text"
+                  name="child"
+                  value={form.child}
+                  onChange={updateField}
+                  placeholder="Nom de l'enfant *"
+                />
+              </label>
+
+              <label className="booking-field">
+                <CalendarDays />
+                <span className="field-label">Date de naissance</span>
+                <input
+                  type="date"
+                  name="birth"
+                  value={form.birth}
+                  onChange={updateField}
+                  max={todayISO()}
+                  aria-label="Date de naissance de l'enfant"
+                />
+              </label>
+
+              <label className="booking-field">
+                <Heart className="fill-icon" />
+                <select
+                  name="motif"
+                  value={form.motif}
+                  onChange={updateField}
+                  className={form.motif ? '' : 'is-empty'}
+                  aria-label="Motif de la consultation"
+                >
+                  <option value="">Motif de la consultation *</option>
+                  {MOTIFS.map((m) => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
+                </select>
+                <ChevronDown className="field-chevron" />
+              </label>
+
+              <label className="booking-field">
+                <CalendarDays className="fill-icon" />
+                <span className="field-label">Date souhaitée *</span>
+                <input
+                  type="date"
+                  name="date"
+                  value={form.date}
+                  onChange={updateField}
+                  min={todayISO()}
+                  aria-label="Date souhaitée"
+                />
+              </label>
+
+              <label className="booking-field">
+                <Clock />
+                <select
+                  name="slot"
+                  value={form.slot}
+                  onChange={updateField}
+                  className={form.slot ? '' : 'is-empty'}
+                  aria-label="Créneau horaire disponible"
+                >
+                  <option value="">Créneau horaire disponible *</option>
+                  {SLOTS.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+                <ChevronDown className="field-chevron" />
+              </label>
+
+            </div>
+
+            {feedback && (
+              <p className={`booking-message ${status === 'success' ? 'is-success' : 'is-error'}`}>
+                {feedback}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="booking-submit"
+              disabled={status === 'sending'}
+            >
+              <Send size={22} />
+              {status === 'sending' ? 'Envoi en cours…' : 'Envoyer ma demande'}
+            </button>
+
+          </form>
+
         </div>
       </section>
 
-      {/* Footer */}
-      <footer
-        style={{
-          marginTop: 'auto',
-          background: '#ffffff',
-          borderTop: '1px solid var(--border)',
-          padding: '32px 6vw',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 16,
-          fontSize: '0.88rem',
-          color: 'var(--text-muted)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div className="nav-brand-logo" style={{ width: 30, height: 30, borderRadius: 8 }}>
-            <Stethoscope size={16} />
+      {/* ================= HORAIRES ================= */}
+      <section className="massilia-hours" id="horaires">
+
+        <div className="section-heading">
+          <Clock size={50} strokeWidth={1.9} />
+          <h2>Horaires du cabinet</h2>
+        </div>
+
+        <p className="section-subtitle">
+          Consultations sur rendez-vous, pour votre confort et celui de votre enfant.
+        </p>
+
+        <div className="hours-wrap">
+
+          <div className="hours-card">
+            {HOURS.map((item, index) => (
+              <div
+                key={item.day}
+                className={
+                  'hours-row' +
+                  (index === todayIndex ? ' is-today' : '') +
+                  (item.closed ? ' is-closed' : '')
+                }
+              >
+                <span className="hours-day">
+                  {item.day}
+                  {index === todayIndex && <em>Aujourd'hui</em>}
+                </span>
+                <span className="hours-time">{item.time}</span>
+              </div>
+            ))}
+
+            
           </div>
-          <span>
-            © {new Date().getFullYear()} {clinicName} • Application Médicale Conforme
-          </span>
+
+
         </div>
-        <div style={{ display: 'flex', gap: 24, fontWeight: 600 }}>
-          <Link to="/rendez-vous">Prendre RDV</Link>
-          <Link to="/connexion">Accès Médecin</Link>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+      <footer className="massilia-footer" id="contact">
+
+        <svg
+          className="footer-wave"
+          viewBox="0 0 1440 70"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M0 0 H1440 V30 C1200 70, 1000 6, 760 38 C520 70, 300 8, 0 44 Z"
+            fill="#9cc4f3"
+            opacity=".75"
+          />
+          <path
+            d="M0 0 H1440 V18 C1220 52, 1010 0, 770 24 C520 50, 290 0, 0 28 Z"
+            fill="#f5f8ff"
+          />
+        </svg>
+
+        <div className="footer-main">
+
+          {/* LOCALISATION */}
+          <div className="footer-column footer-location">
+
+            <div className="footer-location-top">
+              <MapPin size={34} className="footer-pin" />
+
+              <div>
+                <h3>Le cabinet</h3>
+
+                <p>
+                  Cabinet du Dr Massilia Bouhmidi
+                  <br />
+                  Rue des Forces Armées Royales,
+                  <br />
+                  Rue 12, immeuble 1, 1er étage
+                  <br />
+                  Nador, Maroc
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={MAPS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="footer-map-card"
+            >
+              <div className="map-bg">
+                <div className="map-label">
+                  <MapPin size={26} fill="#e53935" color="#e53935" />
+                  <span>
+                    Cabinet Dr Massilia
+                    <br />
+                    Bouhmidi
+                  </span>
+                </div>
+              </div>
+
+              <div className="map-button">
+                <MapPin size={15} color="#2f8f5b" />
+                Voir sur Google Maps
+                <ArrowRight size={15} />
+              </div>
+            </a>
+
+          </div>
+
+          {/* RÉSEAUX SOCIAUX */}
+          <div className="footer-column footer-social">
+
+            <h3>Suivez-nous</h3>
+
+            <div className="social-links">
+
+              <a
+                href="https://www.instagram.com/dr.massiliabouhmidi.pediatre/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="social-circle instagram"
+              >
+                <FaInstagram />
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@massiliabouhmidi?_t=ZS-90Z0iHcQov2&_r=1"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="TikTok"
+                className="social-circle tiktok"
+              >
+                <FaTiktok />
+              </a>
+
+              <a
+                href="https://wa.me/212662332070"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="social-circle whatsapp"
+              >
+                <FaWhatsapp />
+              </a>
+
+            </div>
+
+          </div>
+
+          {/* CONTACT */}
+          <div className="footer-column footer-contact">
+
+            <h3>
+              <Phone size={26} />
+              Contact
+            </h3>
+
+            <a href="https://wa.me/212662332070">
+              <Phone size={19} />
+              +212 662 332 070
+            </a>
+
+            <a href="mailto:drmassiliabouhmidi@gmail.com">
+              <Mail size={19} />
+              drmassiliabouhmidi@gmail.com
+            </a>
+
+            <div className="footer-message">
+              <span>
+                Parce que chaque enfant
+                <br />
+                mérite le meilleur
+              </span>
+              <Heart size={34} strokeWidth={1.8} />
+              <svg
+                className="message-swoosh"
+                viewBox="0 0 200 14"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 9 C 50 2, 120 2, 196 7"
+                  stroke="#ff806d"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+          </div>
+
         </div>
+
+        {/* FOOTER BOTTOM */}
+        <div className="footer-bottom">
+
+          <p>
+            © {new Date().getFullYear()} Dr Massilia Bouhmidi – Pédiatre.
+            Tous droits réservés.
+          </p>
+
+          <div>
+            <span>Santé</span>
+            <span>•</span>
+            <span>Bienveillance</span>
+            <span>•</span>
+            <span>Accompagnement</span>
+          </div>
+
+        </div>
+
       </footer>
-    </div>
+
+    </main>
   )
 }

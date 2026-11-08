@@ -1,0 +1,695 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap');
+
+/* =========================================
+   TABLEAU DE BORD - DR MASSILIA BOUHMIDI
+   Bleu & corail, comme l'accueil
+========================================= */
+
+.ped-dash {
+  --p-blue: #174f98;
+  --p-blue-dark: #12427f;
+  --p-blue-main: #1769c4;
+  --p-blue-soft: #eaf3ff;
+  --p-coral: #ff806d;
+  --p-coral-soft: #fff0ec;
+  --p-line: #e1ecff;
+
+  width: 100%;
+  font-family: 'Plus Jakarta Sans', 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--p-blue-dark);
+}
+
+.ped-dash *,
+.ped-dash *::before,
+.ped-dash *::after {
+  box-sizing: border-box;
+}
+
+.ped-dash a {
+  text-decoration: none;
+}
+
+.ped-loading {
+  padding: 70px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #5f7ca6;
+  font-weight: 600;
+}
+
+.ped-loading svg {
+  color: var(--p-coral);
+}
+
+/* ---------- BOUTONS ---------- */
+
+.ped-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.ped-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ped-btn-coral {
+  background: linear-gradient(100deg, #ff806d, #ff735f);
+  color: white;
+  box-shadow: 0 6px 16px rgba(255, 128, 109, .35);
+}
+
+.ped-btn-white {
+  background: rgba(255, 255, 255, .95);
+  color: var(--p-blue-main);
+}
+
+.ped-btn-outline {
+  padding: 9px 18px;
+  border: 1px solid #cfe1fb;
+  background: white;
+  color: var(--p-blue-main);
+  font-size: 13px;
+}
+
+.ped-btn-outline:hover {
+  background: var(--p-blue-soft);
+}
+
+/* ---------- BANDEAU ---------- */
+
+.ped-banner {
+  position: relative;
+  margin-bottom: 24px;
+  padding: 30px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 22px;
+  overflow: hidden;
+  border-radius: 34px;
+  background: linear-gradient(120deg, #279acf 0%, rgb(155, 192, 228) 55%, #fabdeb 100%);
+  box-shadow: 0 12px 30px rgba(42, 118, 148, 0.25);
+  color: white;
+}
+
+.ped-banner-circle {
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .08);
+}
+
+.ped-banner-heart {
+  position: absolute;
+  fill: none;
+  color: rgba(255, 255, 255, .35);
+}
+
+.ped-banner-heart-one {
+  right: 38%;
+  top: 14px;
+}
+
+.ped-banner-heart-two {
+  right: 6%;
+  bottom: 14px;
+  color: rgba(255, 128, 109, .7);
+}
+
+.ped-banner-text {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+
+.ped-banner-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .15);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ped-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4be08f;
+  box-shadow: 0 0 0 4px rgba(75, 224, 143, .25);
+}
+
+.ped-banner h1 {
+  margin: 0 0 8px;
+  font-size: clamp(32px, 2.6vw, 39px);
+  font-weight: 850;
+  letter-spacing: -.5px;
+   font-family: 'Caveat', 'Segoe Script', cursive;
+   color:#ffb3a7;
+}
+
+.ped-banner h1 span {
+  color: white;
+}
+
+.ped-banner p {
+  margin: 0;
+  color: #e3eefc;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.ped-banner-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------- INDICATEURS ---------- */
+
+.ped-kpis {
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.ped-kpi {
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--p-line);
+  border-radius: 26px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(50, 103, 169, .08);
+  transition: .25s;
+}
+
+.ped-kpi:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(50, 103, 169, .13);
+}
+
+.ped-kpi-icon {
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.ped-blue {
+  background: #e7f1ff;
+  color: #1f84e6;
+}
+
+.ped-coral {
+  background: var(--p-coral-soft);
+  color: #ff866f;
+}
+
+.ped-kpi-value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--p-blue-dark);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.ped-kpi-value em {
+  color: var(--p-coral);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.ped-kpi-label {
+  margin-top: 3px;
+  color: #5b78a0;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+/* ---------- CARTES ---------- */
+
+.ped-row {
+  margin-bottom: 24px;
+  display: grid;
+  gap: 24px;
+}
+
+.ped-row-top {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+.ped-row-bottom {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.ped-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--p-line);
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(50, 103, 169, .08);
+}
+
+.ped-card-head {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ped-card-head h2 {
+  margin: 0;
+  color: var(--p-blue-dark);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.ped-card-head p {
+  margin: 3px 0 0;
+  color: #6a86ad;
+  font-size: 13px;
+}
+
+/* ---------- ÉTIQUETTES ---------- */
+
+.ped-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ped-chip-blue {
+  background: #e7f1ff;
+  color: #1769c4;
+}
+
+.ped-chip-coral {
+  background: var(--p-coral-soft);
+  color: #e8604a;
+}
+
+.ped-chip-green {
+  background: #e6f7ee;
+  color: #1c7c4d;
+}
+
+.ped-chip-grey {
+  background: #eef2f7;
+  color: #6a7f9c;
+}
+
+/* ---------- GRAPHIQUE ---------- */
+
+.ped-chart {
+  height: 220px;
+  padding-top: 8px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.ped-chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.ped-chart-count {
+  color: var(--p-blue-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ped-chart-bar {
+  width: 100%;
+  max-width: 54px;
+  border-radius: 14px 14px 6px 6px;
+  background: linear-gradient(180deg, #6fb0f5, #1769c4);
+  transition: .25s;
+}
+
+.ped-chart-col:nth-child(even) .ped-chart-bar {
+  background: linear-gradient(180deg, #ffb3a7, #ff806d);
+}
+
+.ped-chart-col:hover .ped-chart-bar {
+  transform: scaleY(1.04);
+  transform-origin: bottom;
+}
+
+.ped-chart-day {
+  color: #6a86ad;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---------- DEMANDES ---------- */
+
+.ped-requests {
+  display: flex;
+  flex-direction: column;
+}
+
+.ped-request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ped-request {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--p-line);
+  border-radius: 18px;
+  background: #f8fbff;
+}
+
+.ped-request-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ped-request-info strong {
+  color: var(--p-blue-dark);
+  font-size: 14.5px;
+}
+
+.ped-request-info span {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  color: #6a86ad;
+  font-size: 12.5px;
+}
+
+.ped-request-info span svg:not(:first-child) {
+  margin-left: 6px;
+}
+
+.ped-request-info small {
+  color: #5b78a0;
+  font-size: 12px;
+}
+
+.ped-request-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ped-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.ped-icon-btn:hover {
+  transform: scale(1.1);
+}
+
+.ped-ok {
+  background: #e6f7ee;
+  color: #1c7c4d;
+}
+
+.ped-no {
+  background: var(--p-coral-soft);
+  color: #e8604a;
+}
+
+.ped-empty {
+  padding: 26px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #6a86ad;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.ped-empty svg {
+  color: var(--p-coral);
+}
+
+.ped-link {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--p-blue-main);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.ped-requests .ped-request-list + .ped-link,
+.ped-requests .ped-empty + .ped-link {
+  border-top: 1px solid var(--p-line);
+  margin-top: 16px;
+}
+
+/* ---------- TABLEAU ---------- */
+
+.ped-table-wrap {
+  overflow-x: auto;
+}
+
+.ped-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ped-table th {
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--p-line);
+  color: #6a86ad;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.ped-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #edf3fd;
+  color: #315b91;
+  vertical-align: middle;
+}
+
+.ped-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ped-table td strong {
+  display: block;
+  color: var(--p-blue-dark);
+  font-weight: 700;
+}
+
+.ped-table td small {
+  display: block;
+  margin-top: 2px;
+  color: #7f97ba;
+  font-size: 12px;
+}
+
+.ped-table-empty {
+  padding: 36px 10px !important;
+  color: #6a86ad !important;
+  text-align: center;
+}
+
+/* ---------- LISTE DES ENFANTS ---------- */
+
+.ped-patients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ped-patient {
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--p-line);
+  border-radius: 20px;
+  background: #f8fbff;
+  transition: .2s;
+}
+
+.ped-patient:hover {
+  border-color: #9fc6f5;
+  background: white;
+  transform: translateY(-2px);
+}
+
+.ped-avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ped-patient-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ped-patient-info strong {
+  overflow: hidden;
+  color: var(--p-blue-dark);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ped-patient-info span {
+  overflow: hidden;
+  color: #7f97ba;
+  font-size: 12.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ped-chevron {
+  flex-shrink: 0;
+  color: #9db4d6;
+}
+
+/* ---------- SLOGAN ---------- */
+
+.ped-slogan {
+  margin: 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--p-coral);
+  font-family: 'Caveat', 'Segoe Script', cursive;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.ped-slogan svg {
+  fill: none;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1200px) {
+  .ped-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .ped-row-top,
+  .ped-row-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ped-banner {
+    padding: 24px 20px;
+    border-radius: 26px;
+  }
+
+  .ped-banner-heart {
+    display: none;
+  }
+
+  .ped-banner-actions {
+    width: 100%;
+  }
+
+  .ped-banner-actions .ped-btn {
+    flex: 1 1 auto;
+  }
+
+  .ped-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .ped-card {
+    padding: 18px 16px;
+    border-radius: 24px;
+  }
+
+  .ped-chart {
+    gap: 8px;
+  }
+
+  .ped-request {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

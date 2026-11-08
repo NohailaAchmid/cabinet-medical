@@ -1,223 +1,200 @@
-import { useState, useEffect } from 'react'
-import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useEffect, useState } from 'react'
+import { NavLink, Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
-  Activity,
-  Calendar,
-  Users,
-  FileText,
-  ClipboardList,
-  RadioIcon,
+  LayoutDashboard,
+  CalendarDays,
+  Baby,
   Pill,
-  SettingsIcon,
+  FileText,
+  FileCheck,
+  ScanLine,
+  Settings,
   LogOut,
-  Stethoscope,
   ExternalLink,
-  Clock,
-} from './Icons'
-import api from '../api/client'
+  Menu,
+  X,
+  Heart
+} from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
+import '../theme.css'
+import './Layout.css'
+
+const logoImage = '/images/logo-dr-massilia.png'
+const DOCTOR_NAME = 'Dr Massilia Bouhmidi'
+const DOCTOR_ROLE = 'Pédiatre & Néonatologue'
+
+const NAV = [
+  {
+    title: 'Clinique & soins',
+    items: [
+      { to: '/app', label: 'Tableau de bord', icon: LayoutDashboard, end: true },
+      { to: '/app/rendez-vous', label: 'Rendez-vous', icon: CalendarDays },
+      { to: '/app/patients', label: 'Enfants & Dossiers', icon: Baby }
+    ]
+  },
+  {
+    title: 'Documents médicaux',
+    items: [
+      { to: '/app/ordonnances', label: 'Ordonnances', icon: FileText },
+      { to: '/app/attestations', label: 'Certificats & Attestations', icon: FileCheck },
+      { to: '/app/radiologie', label: 'Examens Radio', icon: ScanLine },
+      { to: '/app/medicaments', label: 'Base Médicaments', icon: Pill }
+    ]
+  },
+  {
+    title: 'Administration',
+    items: [
+      { to: '/app/parametres', label: 'Configuration Cabinet', icon: Settings }
+    ]
+  }
+]
 
 export default function Layout() {
-  const { user, logout } = useAuth()
+  const { logout } = useAuth()
   const navigate = useNavigate()
-  const [cabinet, setCabinet] = useState(null)
-  const [pendingCount, setPendingCount] = useState(0)
+  const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
 
+  // Ferme le menu mobile quand on change de page
   useEffect(() => {
-    api.get('/cabinet').then((res) => setCabinet(res.data)).catch(() => {})
+    setMenuOpen(false)
+  }, [location.pathname])
 
-    const checkPending = () => {
-      api.get('/appointment-requests')
-        .then((res) => {
-          const pending = res.data.filter((r) => r.status === 'pending').length
-          setPendingCount(pending)
-        })
-        .catch(() => {})
+  const dateLabel = new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+  const dateText = dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1)
+
+  async function handleLogout() {
+    try {
+      if (typeof logout === 'function') await logout()
+    } finally {
+      navigate('/login')
     }
-    checkPending()
-    const interval = setInterval(checkPending, 30000)
-    return () => clearInterval(interval)
-  }, [])
+  }
 
   return (
-    <div className="app-container">
-      {/* Sidebar */}
-      <aside className="app-sidebar">
-        <div className="sidebar-header">
-          <div className="sidebar-logo-icon">
-            <Stethoscope size={24} />
-          </div>
-          <div>
-            <div className="sidebar-title">{cabinet?.name || 'Cabinet Médical'}</div>
-            <div className="sidebar-subtitle">Gestion & Consultations</div>
-          </div>
+    <div className="lay-app">
+
+      {menuOpen && (
+        <div className="lay-overlay" onClick={() => setMenuOpen(false)} />
+      )}
+
+      {/* ================= MENU LATÉRAL ================= */}
+      <aside className={'lay-side' + (menuOpen ? ' is-open' : '')}>
+
+        <div className="lay-brand">
+          <Link to="/app" className="lay-brand-link">
+            <img src={logoImage} alt="Logo Dr Massilia Bouhmidi" className="lay-logo" />
+            <div className="lay-brand-text">
+              <strong>{DOCTOR_NAME}</strong>
+              <span>Pédiatre</span>
+            </div>
+          </Link>
+
+          <button
+            type="button"
+            className="lay-close"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Fermer le menu"
+          >
+            <X size={22} />
+          </button>
         </div>
 
-        <nav className="sidebar-nav">
-          <div className="nav-section-title">Clinique & Soins</div>
+        <nav className="lay-nav">
+          {NAV.map((section) => (
+            <div key={section.title} className="lay-section">
+              <p className="lay-section-title">{section.title}</p>
 
-          <NavLink
-            to="/app"
-            end
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <Activity size={18} />
-              <span>Tableau de bord</span>
+              {section.items.map((item) => {
+                const Icon = item.icon
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      'lay-link' + (isActive ? ' is-active' : '')
+                    }
+                  >
+                    <Icon size={20} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                )
+              })}
             </div>
-          </NavLink>
-
-          <NavLink
-            to="/app/rendez-vous"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <Calendar size={18} />
-              <span>Rendez-vous</span>
-            </div>
-            {pendingCount > 0 && (
-              <span className="badge badge-warning" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
-                {pendingCount}
-              </span>
-            )}
-          </NavLink>
-
-          <NavLink
-            to="/app/patients"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <Users size={18} />
-              <span>Patients & Dossiers</span>
-            </div>
-          </NavLink>
-
-          <div className="nav-section-title">Documents Médicaux</div>
-
-          <NavLink
-            to="/app/ordonnances"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <FileText size={18} />
-              <span>Ordonnances</span>
-            </div>
-          </NavLink>
-
-          <NavLink
-            to="/app/attestations"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <ClipboardList size={18} />
-              <span>Certificats & Attestations</span>
-            </div>
-          </NavLink>
-
-          <NavLink
-            to="/app/radiologie"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <RadioIcon size={18} />
-              <span>Examens Radio</span>
-            </div>
-          </NavLink>
-
-          <NavLink
-            to="/app/medicaments"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <Pill size={18} />
-              <span>Base Médicaments</span>
-            </div>
-          </NavLink>
-
-          <div className="nav-section-title">Administration</div>
-
-          <NavLink
-            to="/app/parametres"
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          >
-            <div className="nav-item-left">
-              <SettingsIcon size={18} />
-              <span>Configuration Cabinet</span>
-            </div>
-          </NavLink>
+          ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <div className="doctor-pill">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div className="doctor-avatar">
-                {user?.name ? user.name.slice(0, 2).toUpperCase() : 'DR'}
-              </div>
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.88rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                  {user?.name || 'Dr. Le Médecin'}
-                </div>
-                <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                  {user?.specialty || 'Médecin Généraliste'}
-                </div>
-              </div>
+        <div className="lay-side-footer">
+          <div className="lay-doctor">
+            <div className="lay-avatar">MB</div>
+
+            <div className="lay-doctor-info">
+              <strong>{DOCTOR_NAME}</strong>
+              <span>{DOCTOR_ROLE}</span>
             </div>
+
             <button
               type="button"
-              onClick={logout}
-              className="btn btn-ghost btn-sm"
-              style={{ padding: '6px', color: 'var(--danger)' }}
-              title="Déconnexion"
+              className="lay-logout"
+              onClick={handleLogout}
+              aria-label="Se déconnecter"
+              title="Se déconnecter"
             >
-              <LogOut size={16} />
+              <LogOut size={18} />
             </button>
           </div>
+
+          <p className="lay-slogan">
+            <Heart size={14} strokeWidth={1.8} />
+            Chaque enfant mérite le meilleur
+          </p>
         </div>
       </aside>
 
-      {/* Main content area */}
-      <div className="app-main">
-        <header className="app-topbar">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <span className="badge badge-info" style={{ gap: 8, padding: '6px 14px' }}>
-              <span className="pulse-dot" />
-              <span style={{ fontWeight: 600 }}>Cabinet ouvert</span>
-              <span style={{ color: 'var(--text-light)' }}>•</span>
-              <Clock size={14} />
-              {new Date().toLocaleDateString('fr-FR', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+      {/* ================= CONTENU ================= */}
+      <div className="lay-main">
+
+        <header className="lay-topbar">
+          <div className="lay-topbar-left">
+            <button
+              type="button"
+              className="lay-burger"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Ouvrir le menu"
+            >
+              <Menu size={22} />
+            </button>
+
+            <span className="lay-date">
+              <CalendarDays size={16} />
+              {dateText}
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Link
-              to="/"
-              target="_blank"
-              className="btn btn-outline btn-sm"
-              style={{ gap: 8 }}
-            >
-              <ExternalLink size={14} />
-              <span>Voir le Site Public</span>
-            </Link>
+          <div className="lay-topbar-right">
+            
 
-            <button
-              type="button"
-              onClick={() => navigate('/app/parametres')}
-              className="btn btn-ghost btn-sm"
-              title="Paramètres"
+            <Link
+              to="/app/parametres"
+              className="lay-icon-btn"
+              aria-label="Configuration du cabinet"
+              title="Configuration"
             >
-              <SettingsIcon size={18} />
-            </button>
+              <Settings size={19} />
+            </Link>
           </div>
         </header>
 
-        <main className="app-content">
+        <main className="lay-content">
           <Outlet />
         </main>
+
       </div>
     </div>
   )

@@ -131,15 +131,11 @@ export default function Patients() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Dossiers Médicaux
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+         
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive' }}>
             Gestion des Patients
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Répertoire médical, antécédents et consultations archivées.
-          </p>
+          
         </div>
 
         <button type="button" className="btn btn-primary" onClick={handleOpenCreate}>
@@ -205,7 +201,7 @@ export default function Patients() {
                 <th>Patient</th>
                 <th>Sexe / Âge</th>
                 <th>Groupe</th>
-                <th>Téléphone & E-mail</th>
+                <th>Téléphone de parent & E-mail de parent</th>
                 <th>Ville</th>
                 <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
@@ -420,7 +416,7 @@ export default function Patients() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <Field label="Numéro de téléphone">
+              <Field label="Numéro de téléphone de parent">
                 <input
                   type="tel"
                   className="form-control"
@@ -430,7 +426,7 @@ export default function Patients() {
                 />
               </Field>
 
-              <Field label="Adresse e-mail">
+              <Field label="Adresse e-mail de parent">
                 <input
                   type="email"
                   className="form-control"

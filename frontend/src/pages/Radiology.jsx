@@ -121,15 +121,11 @@ export default function Radiology() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Imagerie Médicale
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+         
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive'  }}>
             Demandes d’Examens Radiologiques
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Création de bons d'imagerie (Radio, Écho, Scanner, IRM) avec indication clinique et export PDF.
-          </p>
+         
         </div>
 
         <button
@@ -309,7 +305,7 @@ export default function Radiology() {
                 value={form.patient_id}
                 onChange={(e) => setForm({ ...form, patient_id: e.target.value })}
               >
-                <option value="">-- Choisir un patient --</option>
+                <option value=""> Choisir un patient </option>
                 {patients.map((pat) => (
                   <option key={pat.id} value={pat.id}>
                     {pat.last_name?.toUpperCase()} {pat.first_name}

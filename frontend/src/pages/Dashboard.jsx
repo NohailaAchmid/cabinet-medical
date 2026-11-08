@@ -1,26 +1,48 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../api/client'
-import { useAuth } from '../context/AuthContext'
-import { useToast } from '../context/ToastContext'
 import {
-  Users,
-  Calendar,
+  Baby,
+  CalendarDays,
   Clock,
   FileText,
-  Activity,
   Plus,
   Check,
   X,
   ChevronRight,
-  ClipboardList,
-  RadioIcon,
-  AlertCircle,
-  TrendingUp,
-} from '../components/Icons'
+  Heart,
+  Stethoscope
+} from 'lucide-react'
+import api from '../api/client'
+import { useToast } from '../context/ToastContext'
+import './Dashboard.css'
+
+/* Âge lisible à partir d'une date de naissance (si le champ existe) */
+function ageLabel(value) {
+  if (!value) return ''
+  const birth = new Date(value)
+  if (isNaN(birth)) return ''
+  const now = new Date()
+  let months =
+    (now.getFullYear() - birth.getFullYear()) * 12 +
+    now.getMonth() - birth.getMonth()
+  if (now.getDate() < birth.getDate()) months -= 1
+  if (months < 0) return ''
+  if (months < 1) return 'Nouveau-né'
+  if (months < 24) return `${months} mois`
+  return `${Math.floor(months / 12)} ans`
+}
+
+/* Données d'exemple pour le graphique (à relier plus tard à de vraies stats) */
+const WEEKLY_STATS = [
+  { day: 'Lun', val: 75, count: 6 },
+  { day: 'Mar', val: 90, count: 8 },
+  { day: 'Mer', val: 60, count: 5 },
+  { day: 'Jeu', val: 85, count: 7 },
+  { day: 'Ven', val: 95, count: 9 },
+  { day: 'Sam', val: 40, count: 3 }
+]
 
 export default function Dashboard() {
-  const { user } = useAuth()
   const { addToast } = useToast()
   const [data, setData] = useState(null)
   const [pendingRequests, setPendingRequests] = useState([])
@@ -65,281 +87,254 @@ export default function Dashboard() {
 
   if (loading || !data) {
     return (
-      <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
-        Chargement du tableau de bord…
+      <div className="ped-dash">
+        <div className="ped-loading">
+          <Heart size={30} strokeWidth={1.8} />
+          Chargement du tableau de bord…
+        </div>
       </div>
     )
   }
 
-  // Weekly activity mockup distribution for trendy dynamic chart
-  const weeklyStats = [
-    { day: 'Lun', val: 75, count: 6 },
-    { day: 'Mar', val: 90, count: 8 },
-    { day: 'Mer', val: 60, count: 5 },
-    { day: 'Jeu', val: 85, count: 7 },
-    { day: 'Ven', val: 95, count: 9 },
-    { day: 'Sam', val: 40, count: 3 },
-  ]
+  const upcoming = data.upcoming || []
+  const latestPatients = data.latest_patients || []
+
+  const todayLabel = new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })
+  const todayText = todayLabel.charAt(0).toUpperCase() + todayLabel.slice(1)
 
   return (
-    <div>
-      {/* Top Welcome Banner */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 16,
-          marginBottom: 30,
-        }}
-      >
-        <div>
-          <span className="badge badge-info" style={{ marginBottom: 8 }}>
-            <span className="pulse-dot" /> Espace Médical • Session Active
-          </span>
-          <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-            Tableau de bord — {user?.name || 'Docteur'}
+    <div className="ped-dash">
+
+      {/* ================= BANDEAU D'ACCUEIL ================= */}
+      <section className="ped-banner">
+        
+
+       
+          
+
+          <h1>
+            Bonjour, <span>Dr Massilia Bouhmidi</span>
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.94rem', marginTop: 4 }}>
-            Vue synthétique de l'activité médicale, du planning et des dossiers de votre cabinet.
-          </p>
-        </div>
 
-        {/* Quick Actions Shortcuts */}
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <Link to="/app/patients" className="btn btn-primary btn-sm">
-            <Plus size={16} /> Nouveau Patient
-          </Link>
-          <Link to="/app/rendez-vous" className="btn btn-outline btn-sm">
-            <Calendar size={16} /> Nouveau RDV
-          </Link>
-          <Link to="/app/ordonnances" className="btn btn-outline btn-sm">
-            <FileText size={16} /> Rédiger Ordonnance
-          </Link>
-        </div>
-      </div>
+         
+        
 
-      {/* KPI Cards */}
-      <div className="kpi-grid">
-        <div className="kpi-card">
-          <div className="kpi-icon-box kpi-blue">
-            <Users size={26} />
+        
+      </section>
+
+      {/* ================= INDICATEURS ================= */}
+      <section className="ped-kpis">
+
+        <article className="ped-kpi">
+          <div className="ped-kpi-icon ped-blue">
+            <Baby size={30} strokeWidth={2} />
           </div>
           <div>
-            <div className="kpi-value">{data.patients_count}</div>
-            <div className="kpi-label">Dossiers Patients Actifs</div>
+            <div className="ped-kpi-value">{data.patients_count}</div>
+            <div className="ped-kpi-label">Enfants suivis</div>
           </div>
-        </div>
+        </article>
 
-        <div className="kpi-card">
-          <div className="kpi-icon-box kpi-emerald">
-            <Calendar size={26} />
+        <article className="ped-kpi">
+          <div className="ped-kpi-icon ped-coral">
+            <CalendarDays size={30} strokeWidth={2} />
           </div>
           <div>
-            <div className="kpi-value">{data.appointments_today}</div>
-            <div className="kpi-label">Rendez-vous Aujourd'hui</div>
+            <div className="ped-kpi-value">{data.appointments_today}</div>
+            <div className="ped-kpi-label">Rendez-vous aujourd'hui</div>
           </div>
-        </div>
+        </article>
 
-        <div className="kpi-card">
-          <div className="kpi-icon-box kpi-amber">
-            <Clock size={26} />
+        <article className="ped-kpi">
+          <div className="ped-kpi-icon ped-blue">
+            <Clock size={30} strokeWidth={2} />
           </div>
           <div>
-            <div className="kpi-value">
+            <div className="ped-kpi-value">
               {pendingRequests.length}
               {pendingRequests.length > 0 && (
-                <span
-                  style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--warning-text)',
-                    marginLeft: 8,
-                    fontWeight: 700,
-                  }}
-                >
-                  à traiter
-                </span>
+                <em>à traiter</em>
               )}
             </div>
-            <div className="kpi-label">Demandes en Attente</div>
+            <div className="ped-kpi-label">Demandes en attente</div>
           </div>
-        </div>
+        </article>
 
-        <div className="kpi-card">
-          <div className="kpi-icon-box kpi-purple">
-            <FileText size={26} />
+        <article className="ped-kpi">
+          <div className="ped-kpi-icon ped-coral">
+            <FileText size={30} strokeWidth={2} />
           </div>
           <div>
-            <div className="kpi-value">{data.prescriptions_month}</div>
-            <div className="kpi-label">Ordonnances du Mois</div>
+            <div className="ped-kpi-value">{data.prescriptions_month}</div>
+            <div className="ped-kpi-label">Ordonnances du mois</div>
           </div>
-        </div>
-      </div>
+        </article>
 
-      {/* Weekly Activity & Pending Requests Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24, marginBottom: 28 }}>
-        {/* Activity Chart Card */}
-        <div className="card">
-          <div className="card-header" style={{ marginBottom: 12 }}>
+      </section>
+
+      {/* ================= ACTIVITÉ + DEMANDES ================= */}
+      <section className="ped-row ped-row-top">
+
+        {/* Graphique */}
+        <article className="ped-card">
+          <header className="ped-card-head">
             <div>
-              <h3 className="card-title">Flux Hebdomadaire des Consultations</h3>
-              <p className="card-subtitle">Répartition moyenne des visites sur la semaine</p>
+              <h2>Consultations de la semaine</h2>
+              <p>Répartition des visites (données d'exemple)</p>
             </div>
-            <span className="badge badge-success">
-              <span className="pulse-dot" /> Actif
+            <span className="ped-chip ped-chip-blue">
+              <Stethoscope size={14} />
+              Semaine
             </span>
-          </div>
+          </header>
 
-          <div className="mini-chart">
-            {weeklyStats.map((item, idx) => (
-              <div key={idx} className="mini-chart-col">
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0f172a' }}>
-                  {item.count}
-                </span>
+          <div className="ped-chart">
+            {WEEKLY_STATS.map((item) => (
+              <div key={item.day} className="ped-chart-col">
+                <span className="ped-chart-count">{item.count}</span>
                 <div
-                  className="mini-chart-bar"
+                  className="ped-chart-bar"
                   style={{ height: `${item.val}%` }}
                   title={`${item.count} consultations le ${item.day}`}
                 />
-                <span className="mini-chart-day">{item.day}</span>
+                <span className="ped-chart-day">{item.day}</span>
               </div>
             ))}
           </div>
-        </div>
+        </article>
 
-        {/* Quick Pending Alert */}
-        <div
-          className="card"
-          style={{
-            borderLeft: pendingRequests.length > 0 ? '4px solid var(--warning)' : '4px solid var(--border)',
-            background: pendingRequests.length > 0 ? 'linear-gradient(90deg, #fffbeb, #ffffff)' : '#ffffff',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div>
-            <div className="card-header" style={{ marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span className={`badge ${pendingRequests.length > 0 ? 'badge-warning' : 'badge-secondary'}`}>
-                  {pendingRequests.length} en attente
-                </span>
-                <h3 className="card-title" style={{ fontSize: '1.05rem', margin: 0 }}>
-                  Demandes Patients en Ligne
-                </h3>
-              </div>
-              <Link to="/app/rendez-vous" className="btn btn-ghost btn-sm">
-                Voir tout
-              </Link>
-            </div>
-
-            {pendingRequests.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {pendingRequests.slice(0, 2).map((req) => (
-                  <div
-                    key={req.id}
-                    style={{
-                      background: '#ffffff',
-                      border: '1px solid var(--border)',
-                      borderRadius: 12,
-                      padding: 12,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div>
-                      <strong style={{ fontSize: '0.92rem', color: '#0f172a' }}>{req.name}</strong>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                        📅 {req.preferred_date} • 🕒 {req.preferred_time || 'Libre'}
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <button
-                        type="button"
-                        className="btn btn-success btn-sm"
-                        style={{ padding: '5px 10px', fontSize: '0.78rem' }}
-                        onClick={() => handleConfirmRequest(req.id)}
-                      >
-                        <Check size={13} /> Valider
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger btn-sm"
-                        style={{ padding: '5px 8px', fontSize: '0.78rem' }}
-                        onClick={() => handleRefuseRequest(req.id)}
-                      >
-                        <X size={13} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', margin: '14px 0' }}>
-                Aucune demande en attente. Toutes les réservations en ligne sont traitées.
-              </p>
-            )}
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12, marginTop: 12 }}>
-            <Link
-              to="/app/rendez-vous"
-              style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 6 }}
-            >
-              Accéder au calendrier complet <ChevronRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Grid: Today's agenda & Recent Patients */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24 }}>
-        {/* Today's appointments */}
-        <div className="card">
-          <div className="card-header">
+        {/* Demandes en ligne */}
+        <article className="ped-card ped-requests">
+          <header className="ped-card-head">
             <div>
-              <h3 className="card-title">Agenda des consultations à venir</h3>
-              <p className="card-subtitle">Consultations médicales programmées</p>
+              <h2>Demandes des parents</h2>
+              <p>Rendez-vous demandés en ligne</p>
             </div>
-            <Link to="/app/rendez-vous" className="btn btn-outline btn-sm">
+            <span
+              className={
+                'ped-chip ' +
+                (pendingRequests.length > 0 ? 'ped-chip-coral' : 'ped-chip-grey')
+              }
+            >
+              {pendingRequests.length} en attente
+            </span>
+          </header>
+
+          {pendingRequests.length > 0 ? (
+            <div className="ped-request-list">
+              {pendingRequests.slice(0, 3).map((req) => (
+                <div key={req.id} className="ped-request">
+                  <div className="ped-request-info">
+                    <strong>{req.name}</strong>
+                    <span>
+                      <CalendarDays size={13} />
+                      {req.preferred_date}
+                      <Clock size={13} />
+                      {req.preferred_time || 'Libre'}
+                    </span>
+                    {req.reason && <small>{req.reason}</small>}
+                  </div>
+
+                  <div className="ped-request-actions">
+                    <button
+                      type="button"
+                      className="ped-icon-btn ped-ok"
+                      onClick={() => handleConfirmRequest(req.id)}
+                      aria-label="Valider la demande"
+                      title="Valider"
+                    >
+                      <Check size={17} />
+                    </button>
+                    <button
+                      type="button"
+                      className="ped-icon-btn ped-no"
+                      onClick={() => handleRefuseRequest(req.id)}
+                      aria-label="Refuser la demande"
+                      title="Refuser"
+                    >
+                      <X size={17} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="ped-empty">
+              <Heart size={28} strokeWidth={1.7} />
+              Aucune demande en attente.
+              <br />
+              Toutes les réservations en ligne sont traitées.
+            </div>
+          )}
+
+          <Link to="/app/rendez-vous" className="ped-link">
+            Accéder au calendrier complet
+            <ChevronRight size={16} />
+          </Link>
+        </article>
+
+      </section>
+
+      {/* ================= AGENDA + ENFANTS ================= */}
+      <section className="ped-row ped-row-bottom">
+
+        {/* Agenda */}
+        <article className="ped-card">
+          <header className="ped-card-head">
+            <div>
+              <h2>Prochaines consultations</h2>
+              <p>Rendez-vous programmés</p>
+            </div>
+            <Link to="/app/rendez-vous" className="ped-btn ped-btn-outline">
               Gérer l'agenda
             </Link>
-          </div>
+          </header>
 
-          <div className="table-wrapper">
-            <table className="data-table">
+          <div className="ped-table-wrap">
+            <table className="ped-table">
               <thead>
                 <tr>
                   <th>Heure / Date</th>
-                  <th>Patient</th>
+                  <th>Enfant / Parent</th>
                   <th>Motif</th>
                   <th>Statut</th>
                 </tr>
               </thead>
               <tbody>
-                {data.upcoming.map((appt) => (
+                {upcoming.map((appt) => (
                   <tr key={appt.id}>
                     <td>
-                      <div style={{ fontWeight: 700, color: '#0f172a' }}>{appt.time}</div>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>{appt.date}</div>
+                      <strong>{appt.time}</strong>
+                      <small>{appt.date}</small>
                     </td>
                     <td>
-                      <div style={{ fontWeight: 700 }}>{appt.name}</div>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>{appt.phone || appt.email}</div>
+                      <strong>{appt.name}</strong>
+                      <small>{appt.phone || appt.email}</small>
                     </td>
-                    <td>{appt.reason || 'Consultation générale'}</td>
+                    <td>{appt.reason || 'Consultation pédiatrique'}</td>
                     <td>
-                      <span className={`badge ${appt.status === 'confirmed' ? 'badge-success' : 'badge-warning'}`}>
+                      <span
+                        className={
+                          'ped-chip ' +
+                          (appt.status === 'confirmed'
+                            ? 'ped-chip-green'
+                            : 'ped-chip-coral')
+                        }
+                      >
                         {appt.status === 'confirmed' ? 'Confirmé' : 'En attente'}
                       </span>
                     </td>
                   </tr>
                 ))}
-                {data.upcoming.length === 0 && (
+
+                {upcoming.length === 0 && (
                   <tr>
-                    <td colSpan={4} style={{ textAlign: 'center', padding: '34px', color: 'var(--text-muted)' }}>
+                    <td colSpan={4} className="ped-table-empty">
                       Aucun rendez-vous planifié prochainement.
                     </td>
                   </tr>
@@ -347,84 +342,72 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
-        </div>
+        </article>
 
-        {/* Latest Patients */}
-        <div className="card">
-          <div className="card-header">
+        {/* Derniers enfants */}
+        <article className="ped-card">
+          <header className="ped-card-head">
             <div>
-              <h3 className="card-title">Derniers patients inscrits</h3>
-              <p className="card-subtitle">Accès rapide aux dossiers médicaux</p>
+              <h2>Derniers enfants inscrits</h2>
+              <p>Accès rapide aux dossiers</p>
             </div>
-            <Link to="/app/patients" className="btn btn-outline btn-sm">
+            <Link to="/app/patients" className="ped-btn ped-btn-outline">
               Répertoire
             </Link>
-          </div>
+          </header>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {data.latest_patients.map((pat) => (
-              <Link
-                key={pat.id}
-                to={`/app/patients/${pat.id}`}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '12px 14px',
-                  borderRadius: 12,
-                  background: 'var(--bg-main)',
-                  border: '1px solid var(--border)',
-                  transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="ped-patients">
+            {latestPatients.map((pat, index) => {
+              const age = ageLabel(pat.birth_date || pat.date_of_birth)
+
+              return (
+                <Link
+                  key={pat.id}
+                  to={`/app/patients/${pat.id}`}
+                  className="ped-patient"
+                >
                   <div
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 10,
-                      background: 'var(--primary-gradient-subtle)',
-                      color: 'var(--primary)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: 800,
-                      fontSize: '0.85rem',
-                      border: '1px solid rgba(37, 99, 235, 0.2)',
-                    }}
+                    className={
+                      'ped-avatar ' + (index % 2 === 0 ? 'ped-blue' : 'ped-coral')
+                    }
                   >
-                    {pat.first_name[0]}
-                    {pat.last_name[0]}
+                    {pat.first_name?.[0]}
+                    {pat.last_name?.[0]}
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '0.92rem' }}>
+
+                  <div className="ped-patient-info">
+                    <strong>
                       {pat.last_name?.toUpperCase()} {pat.first_name}
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      {pat.phone || pat.email || 'Sans contact'}
-                    </div>
+                    </strong>
+                    <span>{pat.phone || pat.email || 'Sans contact'}</span>
                   </div>
-                </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {age && <span className="ped-chip ped-chip-blue">{age}</span>}
                   {pat.blood_type && (
-                    <span className="badge badge-danger" style={{ fontSize: '0.72rem' }}>
-                      {pat.blood_type}
-                    </span>
+                    <span className="ped-chip ped-chip-coral">{pat.blood_type}</span>
                   )}
-                  <ChevronRight size={16} color="var(--text-light)" />
-                </div>
-              </Link>
-            ))}
+                  <ChevronRight size={18} className="ped-chevron" />
+                </Link>
+              )
+            })}
 
-            {data.latest_patients.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '24px 0', color: 'var(--text-muted)', fontSize: '0.88rem' }}>
-                Aucun patient enregistré.
+            {latestPatients.length === 0 && (
+              <div className="ped-empty">
+                <Baby size={28} strokeWidth={1.7} />
+                Aucun enfant enregistré.
               </div>
             )}
           </div>
-        </div>
-      </div>
+        </article>
+
+      </section>
+
+      {/* ================= SLOGAN ================= */}
+      <p className="ped-slogan">
+        <Heart size={18} strokeWidth={1.8} />
+        Parce que chaque enfant mérite le meilleur
+      </p>
+
     </div>
   )
 }

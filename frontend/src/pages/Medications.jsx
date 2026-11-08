@@ -126,15 +126,11 @@ export default function Medications() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Formulaire Thérapeutique
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+          
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive'  }}>
             Base des Médicaments
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Gestion de la liste des médicaments, formes galéniques, dosages et posologies recommandées.
-          </p>
+          
         </div>
 
         <button type="button" className="btn btn-primary" onClick={handleOpenCreate}>

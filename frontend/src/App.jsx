@@ -30,7 +30,7 @@ function ProtectedRoute({ children }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/connexion" replace />
+    return <Navigate to="/login" replace />
   }
 
   return children
@@ -42,7 +42,7 @@ export default function App() {
       {/* Public Pages */}
       <Route path="/" element={<Home />} />
       <Route path="/rendez-vous" element={<Book />} />
-      <Route path="/connexion" element={<Login />} />
+      <Route path="/login" element={<Login />} />
 
       {/* Doctor Workspace */}
       <Route

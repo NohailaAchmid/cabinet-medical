@@ -134,15 +134,11 @@ export default function Certificates() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Documents Administratifs
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+          
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive'  }}>
             Attestations & Certificats Médicaux
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Certificats d'aptitude, arrêts de travail avec repos, attestations de présence et de consultation.
-          </p>
+         
         </div>
 
         <button
@@ -321,14 +317,14 @@ export default function Certificates() {
 
           <form id="certForm" onSubmit={handleSave}>
             <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
-              <Field label="Patient concerné" required>
+              <Field label="Enfant concerné" required>
                 <select
                   className="form-control form-select"
                   required
                   value={form.patient_id}
                   onChange={(e) => setForm({ ...form, patient_id: e.target.value })}
                 >
-                  <option value="">-- Sélectionner le patient --</option>
+                  <option value=""> Sélectionner le patient </option>
                   {patients.map((pat) => (
                     <option key={pat.id} value={pat.id}>
                       {pat.last_name?.toUpperCase()} {pat.first_name}
@@ -351,7 +347,7 @@ export default function Certificates() {
             <Field label="Modèle de document médical">
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
                 {[
-                  { key: 'repos', label: 'Repos / Arrêt de travail' },
+                  { key: 'repos', label: 'Repos ' },
                   { key: 'aptitude', label: "Certificat d'Aptitude sportive" },
                   { key: 'presence', label: 'Attestation de Présence' },
                   { key: 'consultation', label: 'Attestation de Consultation' },

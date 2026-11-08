@@ -159,10 +159,10 @@ export default function PatientFile() {
               </div>
 
               <div style={{ display: 'flex', gap: 18, color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: 6, flexWrap: 'wrap' }}>
-                {patient.birth_date && <span>🎂 Né(e) le {patient.birth_date}</span>}
-                {patient.phone && <span>📞 {patient.phone}</span>}
+                {patient.birth_date && <span> Né(e) le {patient.birth_date}</span>}
+                {patient.phone && <span> {patient.phone}</span>}
                 {patient.email && <span>✉ {patient.email}</span>}
-                <span>📍 {patient.city || 'Casablanca'}</span>
+                <span> {patient.city || 'Nador'}</span>
               </div>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function PatientFile() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span className="badge badge-info" style={{ fontWeight: 700 }}>
-                      📅 {c.date}
+                       {c.date}
                     </span>
                     <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a' }}>
                       {c.reason || 'Consultation de routine'}

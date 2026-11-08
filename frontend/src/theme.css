@@ -1,0 +1,349 @@
+/* =========================================================
+   THEME GLOBAL - DR MASSILIA BOUHMIDI
+   Bleu & corail : restyle toutes les pages de l'espace médecin
+   (cartes, boutons, tableaux, formulaires, fenêtres, badges...)
+   À charger APRÈS index.css (les sélecteurs ci-dessous sont
+   volontairement plus précis pour l'emporter).
+========================================================= */
+
+html:root {
+  --primary: #1769c4;
+  --primary-hover: #12427f;
+  --primary-light: #eaf3ff;
+  --primary-subtle: #f3f8ff;
+  --primary-gradient: linear-gradient(135deg, #1769c4 0%, #3a8ee6 100%);
+  --primary-gradient-subtle: linear-gradient(135deg, rgba(23, 105, 196, .08) 0%, rgba(58, 142, 230, .08) 100%);
+
+  --coral: #ff806d;
+  --coral-light: #fff0ec;
+  --coral-text: #e8604a;
+
+  --cyan: #3a8ee6;
+  --cyan-light: #eaf3ff;
+
+  --secondary: #ff806d;
+  --secondary-hover: #ff735f;
+  --secondary-gradient: linear-gradient(100deg, #2fb67a 0%, #1c9d63 100%);
+
+  --indigo: #5b8dd9;
+  --indigo-light: #eaf1fd;
+
+  --success: #2fb67a;
+  --success-light: #e6f7ee;
+  --success-text: #1c7c4d;
+
+  --warning: #ff806d;
+  --warning-light: #fff0ec;
+  --warning-text: #e8604a;
+
+  --danger: #e5484d;
+  --danger-light: #fdecea;
+  --danger-text: #b3261e;
+
+  --bg-main: #f5f8ff;
+  --bg-card: #ffffff;
+  --bg-subtle: #eef4ff;
+
+  --text-main: #12427f;
+  --text-muted: #5b78a0;
+  --text-light: #8aa3c6;
+
+  --border: #dfeaff;
+  --border-focus: #3a8ee6;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 32px;
+
+  --shadow-sm: 0 2px 8px rgba(50, 103, 169, .07);
+  --shadow-md: 0 6px 20px rgba(50, 103, 169, .10);
+  --shadow-lg: 0 14px 38px rgba(38, 95, 160, .14);
+  --shadow-hover: 0 14px 30px rgba(23, 105, 196, .16);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #12427f;
+  background-color: #f5f8ff;
+}
+
+/* ---------- Cartes ---------- */
+
+body .card {
+  border: 1px solid #dfeaff;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(50, 103, 169, .08);
+}
+
+body .card:hover {
+  box-shadow: 0 8px 24px rgba(50, 103, 169, .12);
+}
+
+body .card-title {
+  color: #12427f;
+  font-weight: 800;
+}
+
+body .card-subtitle {
+  color: #6a86ad;
+}
+
+/* ---------- Boutons (en forme de pilule) ---------- */
+
+body .btn {
+  border-radius: 30px;
+  font-weight: 700;
+}
+
+body .btn-sm {
+  border-radius: 24px;
+}
+
+body .btn-lg {
+  border-radius: 34px;
+}
+
+body .btn-primary {
+  background: linear-gradient(100deg, #ff806d, #ff735f);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(255, 128, 109, .30);
+}
+
+body .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(255, 128, 109, .40);
+}
+
+body .btn-secondary {
+  background: #eaf3ff;
+  color: #1769c4;
+  border: 1px solid #cfe1fb;
+}
+
+body .btn-secondary:hover {
+  background: #dcebff;
+  color: #12427f;
+}
+
+body .btn-success {
+  background: linear-gradient(100deg, #2fb67a, #1c9d63);
+  box-shadow: 0 6px 16px rgba(47, 182, 122, .28);
+}
+
+body .btn-danger {
+  background: #fff0ec;
+  color: #e8604a;
+}
+
+body .btn-danger:hover {
+  background: #ffe0d9;
+  color: #c9422d;
+}
+
+body .btn-ghost {
+  color: #5b78a0;
+}
+
+body .btn-ghost:hover {
+  background: #eaf3ff;
+  color: #1769c4;
+}
+
+body .btn-outline {
+  background: #fff;
+  border: 1px solid #cfe1fb;
+  color: #1769c4;
+}
+
+body .btn-outline:hover {
+  border-color: #1769c4;
+  background: #eaf3ff;
+  color: #12427f;
+}
+
+/* ---------- Badges ---------- */
+
+body .badge-info {
+  background: #e7f1ff;
+  color: #1769c4;
+  border-color: rgba(23, 105, 196, .2);
+}
+
+body .badge-warning {
+  background: #fff0ec;
+  color: #e8604a;
+  border-color: rgba(255, 128, 109, .35);
+}
+
+body .badge-success {
+  background: #e6f7ee;
+  color: #1c7c4d;
+  border-color: rgba(47, 182, 122, .3);
+}
+
+body .badge-danger {
+  background: #fdecea;
+  color: #b3261e;
+}
+
+body .badge-secondary {
+  background: #eef4ff;
+  color: #5b78a0;
+  border-color: #dfeaff;
+}
+
+body .badge-purple {
+  background: #eaf1fd;
+  color: #5b8dd9;
+}
+
+/* ---------- Tableaux ---------- */
+
+body .table-wrapper {
+  border: 1px solid #dfeaff;
+  border-radius: 22px;
+}
+
+body .data-table th {
+  background: #f3f8ff;
+  color: #6a86ad;
+  border-bottom: 1px solid #dfeaff;
+}
+
+body .data-table td {
+  color: #315b91;
+  border-bottom: 1px solid #edf3fd;
+}
+
+body .data-table tr:hover td {
+  background: #f8fbff;
+}
+
+/* ---------- Formulaires ---------- */
+
+body .form-label {
+  color: #12427f;
+}
+
+body .form-control {
+  border: 1px solid #d3e4ff;
+  border-radius: 16px;
+  color: #174b91;
+  background: #fff;
+}
+
+body .form-control::placeholder {
+  color: #8aa3c6;
+}
+
+body .form-control:focus {
+  border-color: #1f84e6;
+  box-shadow: 0 0 0 3px rgba(31, 132, 230, .15);
+}
+
+/* ---------- Indicateurs ---------- */
+
+body .kpi-card {
+  border: 1px solid #dfeaff;
+  border-radius: 26px;
+  box-shadow: 0 4px 16px rgba(50, 103, 169, .08);
+}
+
+body .kpi-icon-box {
+  border-radius: 50%;
+}
+
+body .kpi-blue { background: #e7f1ff; color: #1f84e6; }
+body .kpi-emerald { background: #e6f7ee; color: #1c7c4d; }
+body .kpi-amber { background: #fff0ec; color: #ff866f; }
+body .kpi-purple { background: #eaf1fd; color: #5b8dd9; }
+
+body .kpi-value {
+  color: #12427f;
+}
+
+/* ---------- Fenêtres (modales) ---------- */
+
+body .modal-backdrop {
+  background: rgba(18, 52, 100, .45);
+}
+
+body .modal-dialog {
+  border: 1px solid #dfeaff;
+  border-radius: 34px;
+}
+
+body .modal-header {
+  border-bottom: 1px solid #e6efff;
+  color: #12427f;
+}
+
+body .modal-footer {
+  border-top: 1px solid #e6efff;
+  background: #f5f8ff;
+}
+
+/* ---------- Notifications ---------- */
+
+body .toast {
+  border-radius: 20px;
+}
+
+body .toast-success { background: #1c9d63; }
+body .toast-error { background: #e8604a; }
+body .toast-info { background: #1769c4; }
+
+/* ---------- Documents imprimables (ordonnance, certificats...) ---------- */
+
+body .doc-sheet {
+  color: #1f3a63;
+}
+
+body .doc-sheet-header {
+  border-bottom: 2px solid #1769c4;
+}
+
+body .doc-sheet-doctor h2 {
+  color: #12427f;
+}
+
+body .doc-sheet-doctor .specialty {
+  color: #ff806d;
+}
+
+body .doc-sheet-title {
+  color: #12427f;
+}
+
+body .doc-stamp-box {
+  border-color: #9fc6f5;
+}
+
+/* ---------- Barre publique (page /rendez-vous) ---------- */
+
+body .public-nav {
+  background: rgba(255, 255, 255, .95);
+  border-bottom: 1px solid #dfeaff;
+}
+
+body .nav-brand {
+  color: #12427f;
+}
+
+body .nav-brand-logo {
+  background: linear-gradient(135deg, #1769c4, #3a8ee6);
+  box-shadow: 0 6px 16px rgba(23, 105, 196, .28);
+}
+
+body .nav-links a:hover {
+  color: #ff806d;
+}
+
+/* ---------- Défilement ---------- */
+
+::selection {
+  background: #cfe3ff;
+  color: #12427f;
+}

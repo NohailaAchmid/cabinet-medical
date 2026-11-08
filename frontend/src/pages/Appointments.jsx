@@ -151,15 +151,11 @@ export default function Appointments() {
     <div>
       <div className="card-header" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <span className="badge badge-info" style={{ marginBottom: 6 }}>
-            Gestion du Planning
-          </span>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: '#0f172a' }}>
+         
+          <h1 style={{ fontSize: '2.99rem', fontWeight: 800, color: '#f78282' , fontFamily:'Caveat, Segoe Script, cursive'}}>
             Rendez-vous & Agenda
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Organisation des consultations quotidiennes et validation des demandes en ligne.
-          </p>
+         
         </div>
 
         <button
@@ -294,12 +290,12 @@ export default function Appointments() {
                     <tr key={appt.id}>
                       <td>
                         <div style={{ fontWeight: 700, color: '#0f172a' }}>{appt.time}</div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>📅 {appt.date}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}> {appt.date}</div>
                       </td>
                       <td>
                         <div style={{ fontWeight: 600 }}>{appt.patient?.name || appt.name}</div>
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                          📞 {appt.patient?.phone || appt.phone || 'Non renseigné'}
+                           {appt.patient?.phone || appt.phone || 'Non renseigné'}
                         </div>
                       </td>
                       <td>{appt.reason || 'Consultation générale'}</td>
@@ -383,8 +379,8 @@ export default function Appointments() {
                   </div>
 
                   <div style={{ display: 'flex', gap: 18, color: 'var(--text-muted)', fontSize: '0.88rem', marginTop: 8, flexWrap: 'wrap' }}>
-                    <span>📅 Créneau souhaité : <strong>{req.preferred_date}</strong> à <strong>{req.preferred_time || 'Libre'}</strong></span>
-                    <span>📞 {req.phone}</span>
+                    <span> Créneau souhaité : <strong>{req.preferred_date}</strong> à <strong>{req.preferred_time || 'Libre'}</strong></span>
+                    <span> {req.phone}</span>
                     {req.email && <span>✉ {req.email}</span>}
                   </div>
 
@@ -478,7 +474,7 @@ export default function Appointments() {
                 value={form.patient_id}
                 onChange={(e) => handlePatientSelect(e.target.value)}
               >
-                <option value="">-- Nouveau patient / Non enregistré --</option>
+                <option value=""> Nouveau patient / Non enregistré </option>
                 {patients.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.last_name?.toUpperCase()} {p.first_name} ({p.phone || 'Sans tel'})
@@ -499,7 +495,7 @@ export default function Appointments() {
                 />
               </Field>
 
-              <Field label="Numéro de téléphone">
+              <Field label="Numéro de téléphone de parent">
                 <input
                   type="tel"
                   className="form-control"

@@ -448,11 +448,7 @@ button, input, select, textarea {
   letter-spacing: -0.01em;
 }
 
-.card-subtitle {
-  font-size: 0.86rem;
-  color: var(--text-muted);
-  margin-top: 3px;
-}
+
 
 /* Buttons */
 .btn {
@@ -1089,5 +1085,1418 @@ button, input, select, textarea {
   }
   .hero-title {
     font-size: 2.3rem;
+  }
+}
+
+/* =========================================================
+   MEDICARE — PUBLIC HOME PAGE REDESIGN
+   Scoped to the public landing page; private workspace styles stay untouched.
+   ========================================================= */
+.medicare-home {
+  --mc-navy: #102b59;
+  --mc-blue: #1265df;
+  --mc-cyan: #08b8d0;
+  --mc-muted: #61738f;
+  --mc-line: #dce8f7;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--mc-navy);
+  background: #f7faff;
+}
+.medicare-header { position: relative; z-index: 20; padding: 18px 4.2vw 0; }
+.medicare-nav {
+  min-height: 82px; max-width: 1540px; margin: 0 auto; padding: 12px 24px 12px 28px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  background: rgba(255,255,255,.92); border: 1px solid rgba(255,255,255,.95);
+  border-radius: 23px; box-shadow: 0 12px 35px rgba(27,76,139,.10);
+  backdrop-filter: blur(18px);
+}
+.medicare-brand-link { display: inline-flex; flex: 0 0 auto; }
+.medicare-brand { display: flex; align-items: center; gap: 12px; }
+.medicare-logo-mark {
+  width: 54px; height: 54px; display: grid; place-items: center; border-radius: 17px;
+  color: #fff; background: linear-gradient(145deg,#1265e8,#08bed0);
+  box-shadow: 0 8px 18px rgba(18,101,223,.23);
+}
+.medicare-logo-mark svg { width: 44px; height: 44px; }
+.medicare-brand-copy { display: flex; flex-direction: column; line-height: 1.05; }
+.medicare-brand-copy strong { color: #12346b; font-size: 1.55rem; letter-spacing: -.055em; font-weight: 850; }
+.medicare-brand-copy strong span { color: #08aeca; }
+.medicare-brand-copy small { margin-top: 5px; color: #71819a; font-size: .76rem; font-weight: 600; letter-spacing: .01em; }
+.medicare-nav-links,.medicare-nav-actions { display: flex; align-items: center; gap: 25px; }
+.medicare-nav-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 0; color: #435875; font-size: .9rem; font-weight: 700; white-space: nowrap; transition: color .2s; }
+.medicare-nav-link:hover,.medicare-nav-link.active { color: var(--mc-blue); }
+.medicare-nav-link.active { position: relative; }
+.medicare-nav-link.active::after { content:''; position:absolute; height:3px; border-radius:5px; bottom:0; left:0; right:0; background:linear-gradient(90deg,var(--mc-blue),var(--mc-cyan)); }
+.medicare-button { min-height: 46px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent; border-radius: 14px; font-size: .88rem; font-weight: 800; white-space: nowrap; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+.medicare-button:hover { transform: translateY(-2px); }
+.medicare-button-primary { color: #fff; background: linear-gradient(110deg,#1768ed 0%,#08b9d0 100%); box-shadow: 0 9px 20px rgba(17,112,219,.22); }
+.medicare-button-primary:hover { box-shadow: 0 13px 26px rgba(17,112,219,.3); }
+.medicare-button-outline { color: #173766; border-color: #c8dcf7; background: #fff; }
+.medicare-button-light { color: #173766; background: rgba(255,255,255,.9); border-color: #d8e6f8; box-shadow: 0 7px 18px rgba(32,81,142,.07); }
+.medicare-button-nav { min-height: 48px; border-radius: 999px; padding: 0 19px; font-size: .82rem; }
+.medicare-button-large { min-height: 60px; border-radius: 17px; padding: 0 23px; font-size: .92rem; }
+.medicare-hero {
+  position: relative; padding: 76px 5.8vw 48px;
+  background: radial-gradient(ellipse at 82% 32%,rgba(89,190,244,.22),transparent 37%), linear-gradient(125deg,#f8fbff 0%,#edf5ff 55%,#e5f5fb 100%);
+}
+.medicare-hero::before { content:''; position:absolute; width:620px; height:620px; border:1px solid rgba(71,158,230,.13); border-radius:50%; right:8%; top:-235px; box-shadow:0 0 0 48px rgba(255,255,255,.12),0 0 0 100px rgba(83,166,232,.045); }
+.medicare-hero::after { content:''; position:absolute; left:-5%; right:-5%; bottom:-1px; height:30px; background:linear-gradient(90deg,#d5f2ff,#fff 48%,#c4f2fa); clip-path:polygon(0 55%,12% 20%,27% 70%,43% 45%,60% 78%,76% 38%,90% 64%,100% 15%,100% 100%,0 100%); }
+.medicare-hero-glow { position:absolute; border-radius:50%; pointer-events:none; filter:blur(2px); }
+.medicare-glow-one { width:360px;height:360px;right:25%;top:30px;background:rgba(73,174,241,.08); }
+.medicare-glow-two { width:180px;height:180px;left:2%;bottom:5px;background:rgba(9,188,207,.07); }
+.medicare-hero-inner { position:relative; z-index:1; max-width:1420px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:50px; align-items:center; }
+.medicare-hero-copy { padding:8px 0 24px; }
+.medicare-eyebrow { display:inline-flex; align-items:center; gap:10px; padding:10px 17px; color:#1161c8; background:rgba(221,242,255,.82); border:1px solid #b7defd; border-radius:999px; font-size:.87rem; font-weight:800; margin-bottom:25px; }
+.medicare-status-dot { width:10px;height:10px;border-radius:50%;background:#16b879;box-shadow:0 0 0 5px rgba(22,184,121,.12); }
+.medicare-hero h1 { max-width:780px; color:#102b59; font-size:clamp(2.8rem,4.2vw,4.65rem); line-height:1.08; font-weight:850; letter-spacing:-.065em; }
+.medicare-hero h1 span,.medicare-section-heading h2 span,.medicare-about h2 span { color:transparent; background:linear-gradient(100deg,#1265e8,#08b9ce); -webkit-background-clip:text; background-clip:text; }
+.medicare-title-line { width:104px;height:5px;margin:23px 0 22px;border-radius:10px;background:linear-gradient(90deg,#1265e8,#09c1ce); }
+.medicare-hero-text { max-width:660px; color:#526984; font-size:1.08rem; line-height:1.8; margin-bottom:29px; }
+.medicare-hero-actions { display:flex; flex-wrap:wrap; gap:14px; }
+.medicare-hero-note { display:flex; align-items:center; gap:9px; margin-top:26px; color:#68809c; font-size:.82rem; font-weight:650; }
+.medicare-hero-note svg { color:#12a9b8; }
+.medicare-visual { min-height:510px; position:relative; display:flex; align-items:center; justify-content:flex-end; padding:22px 2% 22px 0; }
+.medicare-visual-orbit { position:absolute; border:1px solid rgba(47,147,222,.2); border-radius:50%; }
+.orbit-one { width:470px;height:470px;right:3%;top:12px; }
+.orbit-two { width:390px;height:390px;right:11%;top:53px;border-style:dashed; }
+.medicare-medical-symbol { position:absolute; left:4%; top:12%; width:155px;height:155px; display:grid;place-items:center; color:#fff; border:1px solid rgba(255,255,255,.75); border-radius:42px; background:linear-gradient(145deg,rgba(36,133,225,.88),rgba(8,185,207,.76)); box-shadow:0 22px 55px rgba(28,119,194,.2); transform:rotate(-8deg); }
+.medicare-floating-cross { position:absolute; right:1%;top:7%;font-size:5.5rem;line-height:1;color:rgba(28,139,220,.18);font-weight:300; }
+.medicare-doctor-card { position:relative; z-index:2; width:min(100%,490px); padding:29px; border:1px solid rgba(255,255,255,.96); border-radius:30px; background:rgba(255,255,255,.94); box-shadow:0 25px 65px rgba(25,79,139,.15); backdrop-filter:blur(14px); }
+.medicare-doctor-top { display:flex; align-items:center; gap:17px; }
+.medicare-doctor-icon { flex:0 0 68px;width:68px;height:68px;display:grid;place-items:center;color:#1467dd;border-radius:22px;background:linear-gradient(145deg,#e8f2ff,#e0f8fb); }
+.medicare-open-label { display:inline-flex;align-items:center;gap:7px;padding:6px 11px;color:#138653;background:#e4f8ef;border-radius:999px;font-size:.72rem;font-weight:800;margin-bottom:8px; }
+.medicare-open-label i { width:7px;height:7px;border-radius:50%;background:#17b978; }
+.medicare-doctor-heading h2 { color:#132e59;font-size:1.22rem;font-weight:850;letter-spacing:-.03em; }
+.medicare-doctor-heading p { color:#6c7f98;font-size:.87rem;margin-top:3px; }
+.medicare-card-divider { height:1px;background:#e6eef8;margin:22px 0; }
+.medicare-hours-box { padding:17px 18px;border:1px solid #e2edf9;border-radius:17px;background:#f2f7fd; }
+.medicare-info-title { display:flex;align-items:center;gap:9px;color:#173764;font-size:.87rem;font-weight:800;margin-bottom:9px; }
+.medicare-info-title svg { color:#1768df; }
+.medicare-hours-box p { color:#647994;font-size:.83rem;line-height:1.8;white-space:pre-line; }
+.medicare-contact-list { display:grid;gap:13px;margin:20px 2px;color:#5c718d;font-size:.84rem; }
+.medicare-contact-list div { display:flex;align-items:center;gap:11px; }
+.medicare-contact-list svg { flex:0 0 auto;color:#1768df; }
+.medicare-card-cta { width:100%;min-height:52px;border-radius:14px; }
+.medicare-card-cta svg:last-child { margin-left:auto; }
+.medicare-visual-caption { position:absolute;left:1%;bottom:12px;display:flex;align-items:center;gap:10px;color:#6d8cac;font-size:.68rem;font-weight:850;letter-spacing:.17em; }
+.medicare-visual-caption span { width:28px;height:2px;background:#0bb6ca; }
+.medicare-trust-strip { position:relative;z-index:3;max-width:1160px;margin:20px auto 0;padding:19px 28px;display:flex;align-items:center;justify-content:space-around;gap:24px;border:1px solid rgba(211,229,250,.95);border-radius:25px;background:rgba(255,255,255,.88);box-shadow:0 15px 35px rgba(35,87,143,.08); }
+.medicare-trust-item { display:flex;align-items:center;gap:14px;min-width:0; }
+.medicare-trust-icon { width:56px;height:56px;flex:0 0 56px;display:grid;place-items:center;color:#1768df;border-radius:19px;background:#e7f1ff; }
+.medicare-trust-icon.trust-cyan { color:#06a9c1;background:#e2f8fb; }
+.medicare-trust-icon.trust-navy { color:#173d78;background:#e8eef9; }
+.medicare-trust-item strong { display:block;color:#1764d2;font-size:1.55rem;font-weight:850;letter-spacing:-.04em; }
+.medicare-trust-item small { display:block;color:#647994;font-size:.8rem;font-weight:650;margin-top:2px; }
+.medicare-trust-separator { width:1px;height:48px;background:#d9e7f7; }
+.medicare-services,.medicare-access { padding:94px 6vw;max-width:1500px;margin:0 auto; }
+.medicare-section-heading { max-width:720px;text-align:center;margin:0 auto 44px; }
+.medicare-section-kicker { color:#087fae;font-size:.72rem;font-weight:850;letter-spacing:.2em; }
+.medicare-section-heading h2,.medicare-about h2 { color:#142f5a;font-size:clamp(2rem,3vw,3rem);font-weight:850;letter-spacing:-.055em;margin-top:12px; }
+.medicare-section-heading p { color:#71829a;font-size:.98rem;line-height:1.7;margin-top:12px; }
+.medicare-service-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px; }
+.medicare-service-card { position:relative;overflow:hidden;min-height:235px;padding:27px;border:1px solid #e2ebf7;border-radius:22px;background:#fff;box-shadow:0 9px 25px rgba(29,76,131,.045);transition:transform .25s,box-shadow .25s; }
+.medicare-service-card:hover { transform:translateY(-6px);box-shadow:0 18px 35px rgba(29,76,131,.1); }
+.medicare-service-card-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:24px; }
+.medicare-service-icon { width:52px;height:52px;display:grid;place-items:center;color:#1267df;border-radius:17px;background:linear-gradient(145deg,#e8f1ff,#e5f9fb); }
+.medicare-service-number { color:#bdcde1;font-size:.8rem;font-weight:850;letter-spacing:.1em; }
+.medicare-service-card h3 { color:#18365f;font-size:1.05rem;font-weight:850;margin-bottom:10px; }
+.medicare-service-card p { color:#71829a;font-size:.86rem;line-height:1.7; }
+.medicare-service-accent { position:absolute;left:27px;bottom:0;width:42px;height:3px;border-radius:4px 4px 0 0;background:linear-gradient(90deg,#1265e8,#08b9ce);transition:width .25s; }
+.medicare-service-card:hover .medicare-service-accent { width:calc(100% - 54px); }
+.medicare-about { max-width:1360px;margin:0 auto 35px;padding:48px 55px;display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:28px;border:1px solid #dceafb;border-radius:28px;background:linear-gradient(110deg,#edf5ff,#f1fbfc); }
+.medicare-about-mark { width:68px;height:68px;display:grid;place-items:center;color:#fff;border-radius:22px;background:linear-gradient(145deg,#1768e8,#08b9ca);box-shadow:0 12px 25px rgba(18,101,223,.2); }
+.medicare-about h2 { font-size:1.8rem;margin-top:8px; }
+.medicare-about p { max-width:700px;color:#657a95;font-size:.9rem;line-height:1.75;margin-top:10px; }
+.medicare-about-checks { display:grid;gap:12px;color:#46627f;font-size:.82rem;font-weight:750;white-space:nowrap; }
+.medicare-about-checks span { display:flex;align-items:center;gap:8px; }
+.medicare-about-checks svg { color:#0eaf86; }
+.medicare-access { padding-top:75px;padding-bottom:90px; }
+.medicare-section-heading-left { text-align:left;margin:0 0 32px; }
+.medicare-access-grid { display:grid;grid-template-columns:1fr 1fr;gap:22px; }
+.medicare-access-card { padding:29px;border:1px solid #e1ebf7;border-radius:22px;background:#fff;box-shadow:0 8px 24px rgba(29,76,131,.045); }
+.medicare-access-icon { width:48px;height:48px;display:grid;place-items:center;color:#1265df;background:#eaf3ff;border-radius:15px;margin-bottom:17px; }
+.medicare-access-card h3 { color:#18365f;font-size:1.08rem;font-weight:850;margin-bottom:13px; }
+.medicare-access-card p { color:#6b7f99;font-size:.87rem;line-height:1.8; }
+.medicare-opening-hours { white-space:pre-line; }
+.medicare-appointment-note { display:inline-flex;align-items:center;gap:7px;margin-top:14px;color:#0c9b70;font-size:.8rem;font-weight:750; }
+.medicare-footer { min-height:100px;padding:23px 6vw;display:flex;align-items:center;justify-content:space-between;gap:22px;background:#fff;border-top:1px solid #e3edf8;color:#8291a6;font-size:.78rem; }
+.medicare-brand-compact .medicare-logo-mark { width:40px;height:40px;border-radius:13px; }
+.medicare-brand-compact .medicare-logo-mark svg { width:34px;height:34px; }
+.medicare-brand-compact .medicare-brand-copy strong { font-size:1.15rem; }
+.medicare-brand-compact .medicare-brand-copy small { font-size:.65rem; }
+.medicare-footer>div:last-child { display:flex;gap:22px;color:#4f6682;font-weight:750; }
+.medicare-footer a:hover { color:#1265df; }
+
+@media (max-width: 1180px) {
+  .medicare-nav { flex-wrap:wrap; }
+  .medicare-nav-links { order:3;width:100%;justify-content:center;border-top:1px solid #edf2f8;padding-top:8px; }
+  .medicare-hero-inner { gap:24px;grid-template-columns:1fr .9fr; }
+  .medicare-hero h1 { font-size:clamp(2.6rem,4.3vw,3.8rem); }
+  .medicare-visual { min-height:470px; }
+  .medicare-doctor-card { padding:23px; }
+  .medicare-service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .medicare-header { padding:10px 12px 0; }
+  .medicare-nav { padding:12px 14px;border-radius:18px;gap:12px; }
+  .medicare-logo-mark { width:45px;height:45px;border-radius:14px; }
+  .medicare-logo-mark svg { width:37px;height:37px; }
+  .medicare-brand-copy strong { font-size:1.25rem; }
+  .medicare-brand-copy small { font-size:.68rem; }
+  .medicare-nav-actions { margin-left:auto;gap:7px; }
+  .medicare-button-nav { min-height:40px;padding:0 11px;font-size:.72rem; }
+  .medicare-nav-actions .medicare-button-outline { display:none; }
+  .medicare-nav-links { justify-content:flex-start;gap:19px;overflow-x:auto;white-space:nowrap;font-size:.78rem; }
+  .medicare-nav-link { font-size:.78rem; }
+  .medicare-hero { padding:48px 20px 38px; }
+  .medicare-hero-inner { grid-template-columns:1fr;gap:15px; }
+  .medicare-hero-copy { padding:0; }
+  .medicare-hero h1 { font-size:clamp(2.1rem,4.3vw,2.8rem); }
+  .medicare-button-large { width:100%;min-height:54px;font-size:.82rem; }
+  .medicare-visual { min-height:430px;justify-content:center;padding:20px 0 35px; }
+  .medicare-medical-symbol { width:100px;height:100px;left:0;top:3%;border-radius:30px; }
+  .medicare-medical-symbol svg { width:54px;height:54px; }
+  .orbit-one { width:330px;height:330px;right:0;top:35px; }
+  .orbit-two { width:270px;height:270px;right:9%;top:65px; }
+  .medicare-floating-cross { right:0;top:0;font-size:4rem; }
+  .medicare-doctor-card { width:100%;padding:20px;border-radius:23px; }
+  .medicare-doctor-heading h2 { font-size:1.05rem; }
+  .medicare-visual-caption { bottom:4px;left:3%; }
+  .medicare-trust-strip { margin-top:14px;padding:15px;display:grid;grid-template-columns:1fr;gap:13px;border-radius:20px; }
+  .medicare-trust-item { gap:12px; }
+  .medicare-trust-icon { width:44px;height:44px;flex-basis:44px;border-radius:14px; }
+  .medicare-trust-item strong { font-size:1.2rem; }
+  .medicare-trust-item small { font-size:.74rem; }
+  .medicare-trust-separator { width:100%;height:1px; }
+  .medicare-services,.medicare-access { padding:65px 20px; }
+  .medicare-section-heading { margin-bottom:30px; }
+  .medicare-section-heading h2 { font-size:2rem; }
+  .medicare-service-grid,.medicare-access-grid { grid-template-columns:1fr; }
+  .medicare-service-card { min-height:205px; }
+  .medicare-about { margin:0 15px 20px;padding:28px 22px;grid-template-columns:1fr;gap:18px; }
+  .medicare-about h2 { font-size:1.55rem; }
+  .medicare-about-checks { grid-template-columns:1fr; }
+  .medicare-footer { padding:24px 20px;flex-direction:column;align-items:flex-start; }
+  .medicare-footer>div:last-child { flex-wrap:wrap;gap:15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .medicare-home *, .medicare-home *::before, .medicare-home *::after { scroll-behavior:auto!important;transition:none!important; }
+}
+/* Réduction forcée du titre principal */
+.medicare-hero h1,
+.medicare-hero-copy h1 {
+    font-size: 60px !important;
+    line-height: 1.2 !important;
+}
+
+/* =========================================================
+   DR MASSILIA BOUHMIDI - PEDIATRIC HOME PAGE
+   Palette : bleu pastel + corail
+========================================================= */
+
+:root {
+  --ped-blue: #245a9b;
+  --ped-blue-dark: #17477f;
+  --ped-blue-light: #91b5e6;
+  --ped-blue-pale: #eaf3ff;
+  --ped-coral: #ff806a;
+  --ped-coral-light: #fff0ec;
+  --ped-white: #ffffff;
+  --ped-background: #f5f8ff;
+  --ped-text: #214e88;
+}
+
+/* GLOBAL */
+
+.pediatric-home {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--ped-text);
+  background:
+    radial-gradient(circle at 15% 10%, #eaf3ff 0, transparent 35%),
+    #f7f9ff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.pediatric-home a {
+  text-decoration: none;
+}
+
+.pediatric-home button {
+  font-family: inherit;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.pediatric-header {
+  position: sticky;
+  top: 8px;
+  z-index: 100;
+  width: calc(100% - 40px);
+  max-width: 1450px;
+  min-height: 76px;
+  margin: 10px auto 0;
+  padding: 8px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e5edfc;
+  border-radius: 50px;
+  box-shadow: 0 7px 25px rgba(48, 101, 170, 0.10);
+  backdrop-filter: blur(14px);
+}
+
+.pediatric-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pediatric-brand img {
+  width: 245px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.pediatric-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 23px;
+}
+
+.pediatric-navigation > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ped-blue-dark);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: .25s;
+}
+
+.pediatric-navigation > a:hover {
+  color: var(--ped-coral);
+}
+
+.pediatric-navigation > a.active {
+  background: #2268b9;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 30px;
+}
+
+.pediatric-navigation .pediatric-portal-button {
+  background: #2471c9;
+  color: white;
+  padding: 12px 19px;
+  border-radius: 30px;
+}
+
+.pediatric-navigation .pediatric-portal-button:hover {
+  background: var(--ped-blue-dark);
+  color: white;
+}
+
+.pediatric-menu-toggle {
+  display: none;
+  border: 0;
+  background: var(--ped-blue-pale);
+  color: var(--ped-blue);
+  border-radius: 12px;
+  width: 42px;
+  height: 42px;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.pediatric-hero {
+  position: relative;
+  max-width: 1500px;
+  min-height: 480px;
+  margin: 0 auto;
+  padding: 65px 5.5% 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 35px;
+  background:
+    radial-gradient(ellipse at 88% 40%, #fbe8d5 0, transparent 38%),
+    radial-gradient(ellipse at 30% 40%, #ffffff 0, transparent 65%),
+    linear-gradient(120deg, #edf5ff, #f8faff);
+}
+
+.pediatric-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 15px 0;
+}
+
+.pediatric-hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ped-blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.pediatric-hero-label svg {
+  color: var(--ped-coral);
+}
+
+.pediatric-hero-title-wrapper {
+  position: relative;
+}
+
+.pediatric-hero-title-wrapper h1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--ped-blue-dark);
+  font-size: clamp(29px, 3.5vw, 47px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -1.8px;
+}
+
+.pediatric-hero-title-wrapper h1 strong {
+  font-size: clamp(30px, 3.5vw, 45px);
+  font-weight: 850;
+}
+
+.pediatric-hero-title-wrapper h1 span {
+  color: var(--ped-coral);
+  font-size: clamp(27px, 3.2vw, 42px);
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.pediatric-title-heart {
+  position: absolute;
+  top: -42px;
+  right: 3%;
+  color: var(--ped-coral);
+  font-size: 65px;
+  font-weight: 300;
+}
+
+.pediatric-hero-description {
+  margin: 24px 0;
+  max-width: 550px;
+  text-align: center;
+}
+
+.pediatric-hero-description p {
+  color: var(--ped-blue-dark);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.pediatric-book-button {
+  width: fit-content;
+  min-height: 52px;
+  margin: 0 auto;
+  padding: 13px 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 40px;
+  color: white !important;
+  background: linear-gradient(110deg, #ff816d, #ff765f);
+  box-shadow: 0 7px 17px rgba(255, 128, 106, .25);
+  font-size: 14px;
+  font-weight: 700;
+  transition: .25s;
+}
+
+.pediatric-book-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(255, 128, 106, .35);
+}
+
+.pediatric-hero-note {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: var(--ped-blue);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pediatric-hero-note svg {
+  color: var(--ped-coral);
+}
+
+/* HERO PHOTO */
+
+.pediatric-hero-image-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 520px;
+  height: 405px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pediatric-image-circle {
+  width: min(100%, 450px);
+  height: 450px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 10px solid white;
+  outline: 12px solid rgba(145, 181, 230, .38);
+  box-shadow: 0 12px 35px rgba(46, 94, 153, .13);
+  background: #f4dfca;
+}
+
+.pediatric-image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.pediatric-photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 2%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(37, 90, 155, .14);
+}
+
+.caption-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ped-blue);
+  background: var(--ped-blue-pale);
+}
+
+.pediatric-photo-caption strong,
+.pediatric-photo-caption span {
+  display: block;
+}
+
+.pediatric-photo-caption strong {
+  font-size: 13px;
+  color: var(--ped-blue-dark);
+}
+
+.pediatric-photo-caption span {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--ped-coral);
+}
+
+.pediatric-photo-heart {
+  position: absolute;
+  z-index: 3;
+  color: #3999ef;
+  font-size: 57px;
+}
+
+.heart-one {
+  top: 4%;
+  right: -1%;
+}
+
+.heart-two {
+  bottom: 22%;
+  right: -3%;
+  font-size: 42px;
+}
+
+.pediatric-wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #e2efff;
+  clip-path: polygon(
+    0 40%, 12% 60%, 23% 35%, 36% 72%,
+    49% 42%, 61% 20%, 74% 62%, 87% 38%,
+    100% 50%, 100% 100%, 0 100%
+  );
+}
+
+/* =========================================================
+   PARCOURS ACADEMIQUE
+========================================================= */
+
+.pediatric-academic {
+  position: relative;
+  padding: 38px 5.5% 55px;
+  background: linear-gradient(180deg, #f6f9ff, #f0f5ff);
+}
+
+.pediatric-section-title {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.academic-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.academic-heading-icon {
+  font-size: 38px;
+  color: var(--ped-blue);
+}
+
+.academic-heading h2 {
+  color: var(--ped-blue-dark);
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 850;
+  letter-spacing: -.7px;
+}
+
+.pediatric-section-title > p {
+  margin-top: 9px;
+  color: var(--ped-blue);
+  font-size: 17px;
+}
+
+.pediatric-academic-grid {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.academic-card {
+  min-height: 180px;
+  padding: 23px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid #e3edff;
+  border-radius: 27px;
+  box-shadow: 0 5px 16px rgba(65, 115, 190, .07);
+  transition: .25s;
+}
+
+.academic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(65, 115, 190, .12);
+}
+
+.academic-card-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  border-radius: 50%;
+}
+
+.academic-card-icon.blue {
+  background: #e6f0ff;
+  color: #2585e7;
+}
+
+.academic-card-icon.light-blue {
+  background: #e1efff;
+  color: #278fe6;
+}
+
+.academic-card-icon.coral {
+  background: #fff0ed;
+  color: var(--ped-coral);
+}
+
+.academic-card h3 {
+  margin-bottom: 7px;
+  color: var(--ped-blue-dark);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.academic-card p {
+  color: #315e9b;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.pediatric-services {
+  padding: 65px 5.5%;
+  background: #fff;
+}
+
+.pediatric-services-heading {
+  max-width: 760px;
+  margin: 0 auto 35px;
+  text-align: center;
+}
+
+.pediatric-services-heading > span {
+  color: var(--ped-coral);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.pediatric-services-heading h2 {
+  margin-top: 12px;
+  color: var(--ped-blue-dark);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+}
+
+.pediatric-services-grid {
+  max-width: 1250px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.pediatric-service-card {
+  padding: 28px 22px;
+  border: 1px solid #e5edfc;
+  border-radius: 23px;
+  background: #fbfdff;
+  box-shadow: 0 5px 18px rgba(47, 98, 164, .06);
+  transition: .25s;
+}
+
+.pediatric-service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(47, 98, 164, .11);
+}
+
+.service-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 17px;
+  border-radius: 18px;
+}
+
+.service-icon.blue {
+  color: #2487e4;
+  background: #eaf3ff;
+}
+
+.service-icon.coral {
+  color: var(--ped-coral);
+  background: #fff0ec;
+}
+
+.pediatric-service-card h3 {
+  color: var(--ped-blue-dark);
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.pediatric-service-card p {
+  color: #647b9a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   RENDEZ-VOUS
+========================================================= */
+
+.pediatric-appointment {
+  position: relative;
+  max-width: 1450px;
+  margin: 15px auto 45px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: .72fr 1.28fr;
+  align-items: stretch;
+  gap: 20px;
+  border: 10px solid #e3efff;
+  border-radius: 50px;
+  background: linear-gradient(120deg, #eaf3ff, #f8faff);
+}
+
+.pediatric-baby-image {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 35px;
+  background: #e0edff;
+}
+
+.pediatric-baby-image img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.baby-decoration {
+  position: absolute;
+  color: var(--ped-coral);
+  font-size: 55px;
+}
+
+.baby-heart-one {
+  top: 5%;
+  left: 10%;
+}
+
+.baby-heart-two {
+  top: 10%;
+  right: 8%;
+  color: #3196ee;
+}
+
+.pediatric-appointment-content {
+  padding: 10px 12px 15px;
+}
+
+.appointment-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 24px;
+}
+
+.appointment-heading-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  color: white;
+  background: #2687df;
+  border-radius: 15px;
+}
+
+.appointment-heading h2 {
+  color: var(--ped-blue-dark);
+  font-size: clamp(20px, 2.3vw, 27px);
+  font-weight: 850;
+}
+
+.appointment-heading p {
+  margin-top: 5px;
+  color: var(--ped-blue);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.appointment-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.appointment-preview-field {
+  min-height: 52px;
+  padding: 12px 17px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: white;
+  border: 1px solid #d8e7ff;
+  border-radius: 17px;
+  color: #2789e8;
+  box-shadow: 0 3px 8px rgba(47, 98, 164, .05);
+}
+
+.appointment-preview-field span {
+  color: var(--ped-blue);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.appointment-preview-field.full {
+  grid-column: 1 / -1;
+}
+
+.pediatric-submit-button {
+  min-width: 270px;
+  width: fit-content;
+  margin: 17px auto 0;
+  padding: 15px 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 40px;
+  color: white !important;
+  background: linear-gradient(110deg, #ff826d, #ff745d);
+  box-shadow: 0 6px 17px rgba(255, 128, 106, .2);
+  font-size: 15px;
+  font-weight: 800;
+  transition: .25s;
+}
+
+.pediatric-submit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 23px rgba(255, 128, 106, .3);
+}
+
+.appointment-help {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  color: #7186a4;
+  font-size: 11px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.pediatric-footer {
+  position: relative;
+  padding: 42px 5.5% 18px;
+  color: white;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(133, 184, 242, .25), transparent 50%),
+    linear-gradient(125deg, #3268a8, #194b85);
+  border-top: 12px solid #b9d8ff;
+  border-radius: 45% 45% 0 0 / 4% 4% 0 0;
+}
+
+.pediatric-footer-main {
+  max-width: 1350px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr 1.15fr;
+  gap: 30px;
+}
+
+.footer-column {
+  min-height: 145px;
+  padding: 0 25px;
+  border-right: 1px solid rgba(255, 255, 255, .5);
+}
+
+.footer-column:first-child {
+  padding-left: 0;
+}
+
+.footer-column:last-of-type {
+  border-right: 0;
+}
+
+.footer-column h3 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 15px;
+  color: white;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.footer-location p {
+  max-width: 340px;
+  color: #f1f6ff;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.footer-map-button {
+  width: fit-content;
+  margin-top: 15px;
+  padding: 11px 15px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ped-blue-dark) !important;
+  background: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  transition: .2s;
+}
+
+.footer-map-button:hover {
+  transform: translateY(-2px);
+}
+
+.footer-social-links {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.footer-social-links a {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white !important;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+  transition: .25s;
+}
+
+.footer-social-links a:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.social-instagram {
+  background: linear-gradient(45deg, #ffb12b, #ed238b, #8139d5);
+}
+
+.social-tiktok {
+  background: #101010;
+}
+
+.social-whatsapp {
+  background: #19bd64;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.footer-contact h3 {
+  margin-bottom: 3px;
+}
+
+.footer-contact > a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: white !important;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.footer-contact > a:hover {
+  color: #ffd2c8 !important;
+}
+
+.footer-message {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -5px;
+  padding-right: 2%;
+}
+
+.footer-message p {
+  color: #f3f7ff;
+  font-size: 17px;
+  font-style: italic;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.footer-message span {
+  color: var(--ped-coral);
+  font-size: 35px;
+  margin-left: 8px;
+}
+
+.pediatric-footer-bottom {
+  max-width: 1400px;
+  margin: 28px auto 0;
+  padding-top: 19px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-top: 1px solid rgba(255, 255, 255, .35);
+  color: #edf5ff;
+  font-size: 12px;
+}
+
+.pediatric-footer-bottom > div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* =========================================================
+   RESPONSIVE TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .pediatric-header {
+    padding: 8px 17px;
+  }
+
+  .pediatric-brand img {
+    width: 190px;
+  }
+
+  .pediatric-navigation {
+    gap: 12px;
+  }
+
+  .pediatric-navigation > a {
+    font-size: 11px;
+  }
+
+  .pediatric-hero {
+    padding: 55px 4%;
+    gap: 20px;
+  }
+
+  .pediatric-image-circle {
+    width: 340px;
+    height: 340px;
+  }
+
+  .pediatric-hero-image-wrapper {
+    height: 350px;
+  }
+
+  .pediatric-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pediatric-appointment {
+    grid-template-columns: .65fr 1.35fr;
+  }
+
+  .pediatric-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-message {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .pediatric-header {
+    width: calc(100% - 20px);
+    min-height: 65px;
+    margin-top: 8px;
+    padding: 6px 14px;
+    border-radius: 22px;
+  }
+
+  .pediatric-brand img {
+    width: 185px;
+    height: 48px;
+  }
+
+  .pediatric-menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .pediatric-navigation {
+    position: absolute;
+    top: calc(100% + 9px);
+    left: 0;
+    right: 0;
+    padding: 16px;
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 7px;
+    background: white;
+    border: 1px solid #e4edfb;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(37, 90, 155, .13);
+  }
+
+  .pediatric-navigation.active {
+    display: flex;
+  }
+
+  .pediatric-navigation > a {
+    padding: 12px !important;
+    border-radius: 12px !important;
+    font-size: 14px;
+  }
+
+  .pediatric-navigation > a.active {
+    background: var(--ped-blue) !important;
+  }
+
+  .pediatric-hero {
+    padding: 42px 20px 70px;
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .pediatric-hero-label {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .pediatric-hero-title-wrapper h1 {
+    align-items: center;
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+
+  .pediatric-hero-title-wrapper h1 strong {
+    font-size: 29px;
+  }
+
+  .pediatric-hero-title-wrapper h1 span {
+    font-size: 26px;
+  }
+
+  .pediatric-title-heart {
+    display: none;
+  }
+
+  .pediatric-hero-description {
+    margin: 20px auto;
+  }
+
+  .pediatric-hero-description p {
+    font-size: 14px;
+  }
+
+  .pediatric-book-button {
+    width: 100%;
+    max-width: 370px;
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .pediatric-hero-image-wrapper {
+    height: 330px;
+    max-width: 390px;
+  }
+
+  .pediatric-image-circle {
+    width: 300px;
+    height: 300px;
+    border-width: 7px;
+    outline-width: 7px;
+  }
+
+  .pediatric-photo-caption {
+    left: 50%;
+    bottom: -7px;
+    width: max-content;
+    max-width: 95%;
+    transform: translateX(-50%);
+    padding: 10px 13px;
+  }
+
+  .pediatric-photo-heart {
+    font-size: 40px;
+  }
+
+  .pediatric-academic {
+    padding: 35px 17px 45px;
+  }
+
+  .academic-heading {
+    gap: 9px;
+  }
+
+  .academic-heading h2 {
+    font-size: 25px;
+  }
+
+  .academic-heading-icon {
+    font-size: 26px;
+  }
+
+  .pediatric-section-title > p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .pediatric-academic-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .academic-card {
+    min-height: 165px;
+  }
+
+  .pediatric-services {
+    padding: 45px 18px;
+  }
+
+  .pediatric-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pediatric-service-card {
+    padding: 23px;
+  }
+
+  .pediatric-appointment {
+    margin: 12px 10px 35px;
+    padding: 10px;
+    grid-template-columns: 1fr;
+    border-width: 6px;
+    border-radius: 28px;
+  }
+
+  .pediatric-baby-image {
+    min-height: 240px;
+    max-height: 280px;
+  }
+
+  .pediatric-appointment-content {
+    padding: 12px 5px;
+  }
+
+  .appointment-heading {
+    align-items: flex-start;
+    gap: 11px;
+  }
+
+  .appointment-heading-icon {
+    width: 43px;
+    height: 43px;
+  }
+
+  .appointment-heading h2 {
+    font-size: 20px;
+  }
+
+  .appointment-heading p {
+    font-size: 12px;
+  }
+
+  .appointment-preview {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .appointment-preview-field.full {
+    grid-column: auto;
+  }
+
+  .pediatric-submit-button {
+    width: 100%;
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  .pediatric-footer {
+    padding: 35px 20px 18px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .pediatric-footer-main {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .footer-column {
+    min-height: auto;
+    padding: 0 0 23px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .3);
+  }
+
+  .footer-column:first-child {
+    padding-left: 0;
+  }
+
+  .footer-message {
+    grid-column: auto;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .footer-message p {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .pediatric-footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .pediatric-footer-bottom > div {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .pediatric-brand img {
+    width: 155px;
+  }
+
+  .pediatric-hero-title-wrapper h1 {
+    font-size: 26px;
+  }
+
+  .pediatric-hero-title-wrapper h1 strong {
+    font-size: 25px;
+  }
+
+  .pediatric-hero-title-wrapper h1 span {
+    font-size: 22px;
+  }
+
+  .pediatric-image-circle {
+    width: 260px;
+    height: 260px;
+  }
+
+  .pediatric-hero-image-wrapper {
+    height: 290px;
   }
 }
